@@ -16,6 +16,9 @@ public class Image {
     public int intensity;
     public int[][] matrix;
 
+    public Image() {
+    }
+
     public Image(String fileName){
         try {
             FileInputStream fileInputStream = new FileInputStream(fileName);
@@ -79,6 +82,18 @@ public class Image {
             }
             System.out.printf(String.format("%s\n", builder.toString()));
         }
+    }
+
+    public Image clone(){
+        Image image = new Image();
+        image.width = width;
+        image.height = height;
+        image.intensity = intensity;
+        image.matrix = new int[height][width];
+        for(int i = 0;i < height;i++)
+            for(int j = 0;j < width;j++)
+                image.matrix[i][j] = matrix[i][j];
+        return image;
     }
 
 }
