@@ -19,6 +19,16 @@ public class Image {
     public Image() {
     }
 
+    public Image(int width, int height, int intensity){
+        this.width = width;
+        this.height = height;
+        this.intensity = intensity;
+        matrix = new int[height][width];
+        for(int i = 0;i < height;i++)
+            for(int j = 0;j < width;j++)
+                matrix[i][j] = 0;
+    }
+
     public Image(String fileName){
         try {
             FileInputStream fileInputStream = new FileInputStream(fileName);
@@ -94,6 +104,13 @@ public class Image {
             for(int j = 0;j < width;j++)
                 image.matrix[i][j] = matrix[i][j];
         return image;
+    }
+
+    public Image zero(){
+        for(int i = 0;i < height;i++)
+            for(int j = 0;j < width;j++)
+                matrix[i][j] = 0;
+        return this;
     }
 
 }
