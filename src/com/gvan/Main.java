@@ -4,16 +4,20 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        String fileName = "/home/ivan/Study/diplom/images/binary.pgm";
-        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
+        String fileName = "/home/ivan/Study/diplom/images/binary.pgm";
+//        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
 
         Image image = new Image(fileName);
         image.toBinary(image.intensity/2);
-        image.printBinaryImage();
+        image.printImage();
 
-        Morphologic morphologic = new Morphologic();
-        morphologic.initStruct(5, 5);
-        morphologic.breaking(image).printBinaryImage();
+        ConnectedComponent connectedComponent = new ConnectedComponent(image);
+        image = connectedComponent.classicalConnect();
+        image.printImage();
+
+        MorphologyCircle morphology = new MorphologyCircle();
+        for(float[] pair : morphology.centroid(image))
+            Utils.log("centroid %s, %s", pair[0], pair[1]);
 
     }
 

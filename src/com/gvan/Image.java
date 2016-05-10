@@ -76,7 +76,7 @@ public class Image {
             stringBuilder.append(String.format("%s\n", intensity));
             for(int i = 0;i < height;i++)
                 for(int j = 0;j < width;j++)
-                    stringBuilder.append(String.format("%s ",matrix[i][j]));
+                    stringBuilder.append(String.format("%s ",(byte)matrix[i][j]));
 
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(stringBuilder.toString().getBytes());
@@ -133,6 +133,16 @@ public class Image {
             for(int j = 0;j < width;j++)
                 matrix[i][j] = 0;
         return this;
+    }
+
+    public boolean equals(Image image){
+        for(int i = 0;i < height;i++){
+            for(int j = 0;j < width;j++){
+                if(matrix[i][j] != image.matrix[i][j])
+                    return false;
+            }
+        }
+        return true;
     }
 
 }
