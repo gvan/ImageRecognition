@@ -1,9 +1,13 @@
 package com.gvan;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+
 /**
  * Created by betinvest on 5/10/16.
  */
-public class Morphologic {
+public class Morphology {
 
     private int[][] struct;
     private int sCols;
@@ -11,11 +15,13 @@ public class Morphologic {
     private int sX;
     private int sY;
 
+    private final int[][] S_3_SQR = {{1,1,1},{1,1,1},{1,1,1}};
+
     protected void initStruct(int cols, int rows){
         this.sCols = cols;
         this.sRows = rows;
-        this.sX = rows / 2;
-        this.sY = cols / 2;
+        this.sX = cols / 2;
+        this.sY = rows / 2;
         Utils.log("structure sX %s sY %s", sX, sY);
         struct = new int[sRows][sCols];
         for(int i = 0;i < struct.length;i++)
@@ -24,13 +30,23 @@ public class Morphologic {
     }
 
     public Image increase(Image image){
+        return increase(image, struct);
+    }
+
+    public Image increase(Image image, int[][] struct){
+        int sCols = struct[0].length;
+        int sRows = struct.length;
+        int sX = sCols / 2;
+        int sY = sRows / 2;
         Image resImage = new Image(image.width, image.height, 1);
         for(int i = sY;i < image.height - sY;i++){
             for(int j = sX;j < image.width - sX;j++){
                 if(image.matrix[i][j] == 1){
                     for(int k = i - sY;k <= i + sY;k++){
                         for(int l = j - sX;l <= j + sX;l++){
-                            resImage.matrix[k][l] = resImage.intensity;
+                            if(struct[k % sRows][l % sCols] == 1){
+                                resImage.matrix[k][l] = resImage.intensity;
+                            }
                         }
                     }
                 }
@@ -69,8 +85,33 @@ public class Morphologic {
         return increase(erosion(image));
     }
 
-    public Image conjuction(Image image){
-        Image resImage = new Image(image.width, image.height, 1);
+    public Image conjuction(Image image1, Image image2){
+        Image resImage = new Image(image1.width, image1.height, 1);
+        for(int i = 0;i < image1.height;i++){
+            for(int j = 0;j < image1.width;j++){
+                resImage.matrix[i][j] = image1.matrix[i][j] | image2.matrix[i][j];
+            }
+        }
+        return resImage;
+    }
+
+    public Image disjunction(Image image1, Image image2){
+        Image resImage = new Image(image1.width, image1.height, 1);
+        for(int i = 0;i < image1.width;i++){
+            for(int j = 0;j < image1.height;j++){
+                resImage.matrix[i][j] = image1.matrix[i][j] & image2.matrix[i][j];
+            }
+        }
+        return resImage;
+    }
+
+    public Image conditionalIncrease(Image image){
+        Image resImage = erosion(image);
+        Image localImage;
+        do {
+            localImage = resImage.clone();
+            resImage = disjunction(increase(resImage, S_3_SQR), image);
+        } while (!resImage.equals(localImage));
         return resImage;
     }
 

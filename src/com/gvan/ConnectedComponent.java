@@ -1,5 +1,8 @@
 package com.gvan;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by betinvest on 4/14/16.
  */
@@ -10,7 +13,6 @@ public class ConnectedComponent {
             {{-1,-1},{-1,0},{-1,1},
             {0,-1},{0,0},{0,-1},
             {1,-1},{1,0},{1,1}};
-    private final int MAX_LABELS = 8000;
     private int nextLabel = 1;
 
     public ConnectedComponent(Image image) {
@@ -19,12 +21,8 @@ public class ConnectedComponent {
 
     public Image classicalConnect(){
         Image imageRst = new Image(image.width, image.height, 1);
-        int[] parent = new int[MAX_LABELS];
-        int[] labels = new int[MAX_LABELS];
-        for(int i = 0;i < MAX_LABELS;i++){
-            parent[i] = 0;
-            labels[i] = 0;
-        }
+        List<Integer> parent = new ArrayList<Integer>();
+        List<Integer> labels = new ArrayList<Integer>();
         int nextRegion = 1;
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
@@ -44,46 +42,69 @@ public class ConnectedComponent {
                     k = nextRegion;
                     nextRegion++;
                 }
-                if(k >= MAX_LABELS) System.exit(1);
                 imageRst.matrix[i][j] = k;
                 if(j > 0 && image.matrix[i][j - 1] == image.matrix[i][j] && imageRst.matrix[i][j - 1] != k)
                     union(k, imageRst.matrix[i][j - 1], parent);
+                else
                 if(i > 0 && image.matrix[i - 1][j] == image.matrix[i][j] && imageRst.matrix[i - 1][j] != k)
                     union(k, imageRst.matrix[i - 1][j], parent);
+                else
+                if(parent.size() <= k)
+                    for(int l = parent.size();l <= k;l++)
+                        parent.add(0);
             }
         }
 
+//        imageRst.printImage();
+//        for(int i = 0;i < parent.size();i++)
+//            Utils.log("%s - %s", i, parent.get(i));
+
         nextLabel = 1;
-        for(int i = 0;i < image.height;i++){
-            for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] == 1){
+        for(int i = 0;i < imageRst.height;i++){
+            for(int j = 0;j < imageRst.width;j++){
+                if(imageRst.matrix[i][j] > 0){
                     imageRst.matrix[i][j] = find(imageRst.matrix[i][j], parent, labels);
                 }
             }
         }
+        imageRst.intensity = nextLabel - 1;
+
+//        imageRst.printImage();
+//        for(int i = 0;i < labels.size();i++)
+//            Utils.log("%s - %s", i, labels.get(i));
 
         return imageRst;
     }
 
-    private void union(int i, int j, int[] parent){
-        while (parent[i] > 0)
-            i = parent[i];
-        while (parent[j] > 0)
-            j = parent[j];
-        if(i != j){
-            if(i < j)
-                parent[i] = j;
+    private void union(int k, int j, List<Integer> parent){
+        if(parent.size() <= k)
+            for(int i = parent.size();i <= k;i++)
+                parent.add(0);
+        if(parent.size() <= j)
+            for(int i = parent.size();i <= j;i++)
+                parent.add(0);
+
+        while (parent.get(k) > 0)
+            k = parent.get(k);
+        while (parent.get(j) > 0)
+            j = parent.get(j);
+        if(k != j){
+            if(k < j)
+                parent.set(k,j);
             else
-                parent[j] = i;
+                parent.set(j, k);
         }
     }
 
-    private int find(int i, int[] parent, int[] label){
-        while (parent[i] > 0)
-            i = parent[i];
-        if(label[i] == 0)
-            label[i] = nextLabel++;
-        return label[i];
+    private int find(int k, List<Integer> parent, List<Integer> label){
+        while (parent.get(k) > 0)
+            k = parent.get(k);
+        if(label.size() <= k)
+            for(int i = label.size();i <= k;i++)
+                label.add(0);
+        if(label.get(k) == 0)
+            label.set(k, nextLabel++);
+        return label.get(k);
     }
 
     public Image recursionConnect(){
@@ -94,6 +115,7 @@ public class ConnectedComponent {
                 if(image.matrix[i][j] == -1){
                     search(++label, i, j);
                 }
+        image.intensity = label;
         return image;
     }
 

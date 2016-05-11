@@ -1,9 +1,6 @@
 package com.gvan;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -66,6 +63,31 @@ public class Image {
         }
     }
 
+    public void saveFile(String filePath){
+        try {
+            File file = new File(filePath);
+            if(!file.exists())
+                file.createNewFile();
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("P2\n");
+            stringBuilder.append("#some comment\n");
+            stringBuilder.append(String.format("%s %s\n", width, height));
+            stringBuilder.append(String.format("%s\n", intensity));
+            for(int i = 0;i < height;i++)
+                for(int j = 0;j < width;j++)
+                    stringBuilder.append(String.format("%s ",(byte)matrix[i][j]));
+
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(stringBuilder.toString().getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void toBinary(int threshold){
         for(int r = 0;r < height;r++)
             for(int c = 0;c < width;c++)
@@ -111,6 +133,16 @@ public class Image {
             for(int j = 0;j < width;j++)
                 matrix[i][j] = 0;
         return this;
+    }
+
+    public boolean equals(Image image){
+        for(int i = 0;i < height;i++){
+            for(int j = 0;j < width;j++){
+                if(matrix[i][j] != image.matrix[i][j])
+                    return false;
+            }
+        }
+        return true;
     }
 
 }
