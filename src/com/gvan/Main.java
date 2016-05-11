@@ -4,8 +4,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String fileName = "/home/ivan/Study/diplom/images/binary.pgm";
-//        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
+//        String fileName = "/home/ivan/Study/diplom/images/binary.pgm";
+        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
 
         Image image = new Image(fileName);
         image.toBinary(image.intensity/2);
@@ -16,8 +16,8 @@ public class Main {
         image.printImage();
 
         MorphologyCircle morphology = new MorphologyCircle();
-        for(float[] pair : morphology.centroid(image))
-            Utils.log("centroid %s, %s", pair[0], pair[1]);
+        for(float pair : morphology.radialDistance(image))
+            Utils.log("round value %s", pair);
 
     }
 
