@@ -53,7 +53,7 @@ public class MorphologyCircle {
         return centroids;
     }
 
-    public float[] radialDistance(Image image){
+    public float[] roundCriterion(Image image){
         centroid(image);
         int marketsCount = centroids.size();
         int[] Ks = new int[marketsCount];
@@ -109,6 +109,32 @@ public class MorphologyCircle {
                 if(matrix[r+i][c+j] != p)
                     return true;
         return false;
+    }
+
+    public void centralMoment(Image image){
+        centroid(image);
+        int markerCount = squares.size();
+        float[] muRR = new float[markerCount];
+        float[] muRC = new float[markerCount];
+        float[] muCC = new float[markerCount];
+
+        for(int i = 0;i < image.height;i++){
+            for(int j = 0;j < image.width;j++){
+                if(image.matrix[i][j] != 0){
+                    int p = image.matrix[i][j];
+                    float[] centroid = centroids.get(p);
+                    muRR[p] += Math.pow(i - centroid[0], 2);
+                    muRC[p] += ((i - centroid[0])*(j - centroid[1]));
+                    muCC[p] += Math.pow(j - centroid[1], 2);
+                }
+            }
+        }
+        for(int i = 0;i < markerCount;i++){
+            muRR[i] /= squares.get(i);
+            muRC[i] /= squares.get(i);
+            muCC[i] /= squares.get(i);
+            Utils.log("%s %s %s", muRR[i], muRC[i], muCC[i]);
+        }
     }
 
 }
