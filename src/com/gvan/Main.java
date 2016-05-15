@@ -16,7 +16,7 @@ public class Main {
         image.printImage();
 
         MorphologyCircle morphology = new MorphologyCircle();
-        morphology.centralMoment(image);
+        morphology.principalAxis(image);
 
     }
 
