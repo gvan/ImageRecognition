@@ -121,7 +121,7 @@ public class MorphologyCircle {
             if(muRC != 0 && muRR <= muCC){
                 double angle = (-2*muRC) / (muRR - muCC + Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2)));
                 alphasL[i] = Math.toDegrees(Math.atan(angle));
-                alphasL[i] = alphasL[i] < 0 ? alphasL[i] - 90 : alphasL[i];
+                alphasL[i] = alphasL[i] < 0 ? -alphasL[i] + 90 : 90 - alphasL[i];
                 alphasS[i] = alphasL[i] - 90;
                 lengthL[i] = Math.sqrt(8*(muRR + muCC + Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
                 lengthS[i] = Math.sqrt(8*(muRR + muCC - Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
@@ -129,13 +129,13 @@ public class MorphologyCircle {
             if(muRC != 0 && muRR > muCC){
                 double angle = Math.sqrt(muCC + muRR + Math.sqrt(Math.pow(muCC - muRR, 2) + 4*Math.pow(muRC, 2))) / (-2*muRC);
                 alphasL[i] = Math.toDegrees(Math.atan(angle));
-                alphasL[i] = alphasL[i] < 0 ? alphasL[i] - 90 : alphasL[i];
+                alphasL[i] = alphasL[i] < 0 ? -alphasL[i] + 90 : 90 - alphasL[i];
                 alphasS[i] = alphasL[i] - 90;
                 lengthL[i] = Math.sqrt(8*(muRR + muCC + Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
                 lengthS[i] = Math.sqrt(8*(muRR + muCC - Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
             }
-            betasL[i] = Math.toRadians(alphasL[i] + 90);
-            betasS[i] = Math.toRadians(alphasS[i] + 90);
+            betasL[i] = Math.toRadians(alphasL[i]);
+            betasS[i] = Math.toRadians(alphasS[i]);
         }
         Utils.log("alpha");
         for(int i = 0;i < marketCount;i++)
@@ -149,8 +149,8 @@ public class MorphologyCircle {
                 if(image.matrix[i][j] != 0){
                     int p = image.matrix[i][j];
                     float[] centroid = centroids.get(p);
-                    muRCaB[p] += Math.pow((j - centroid[1])*Math.cos(betasL[p]) + (i - centroid[0])*Math.sin(betasL[p]), 2);
-                    muRCaS[p] += Math.pow((j - centroid[1])*Math.cos(betasS[p]) + (i - centroid[0])*Math.sin(betasS[p]), 2);
+                    muRCaB[p] += Math.pow((i - centroid[0])*Math.cos(betasL[p]) + (j - centroid[1])*Math.sin(betasL[p]), 2);
+                    muRCaS[p] += Math.pow((i - centroid[0])*Math.cos(betasS[p]) + (j - centroid[1])*Math.sin(betasS[p]), 2);
                 }
             }
         }
