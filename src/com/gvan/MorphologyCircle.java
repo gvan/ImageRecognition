@@ -1,5 +1,8 @@
 package com.gvan;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +11,15 @@ import java.util.List;
  */
 public class MorphologyCircle {
 
+    private int markerCount = 0;
     private ArrayList<Integer> squares;
     private ArrayList<float[]> centroids;
     private float[] muRRArr;
     private float[] muRCArr;
     private float[] muCCArr;
-    private float[] principleAxis;
+    private float[] muRCaL;
+    private float[] muRCaS;
+
 
     public ArrayList<Integer> square(Image image){
         squares = new ArrayList<Integer>();
@@ -27,13 +33,14 @@ public class MorphologyCircle {
                 }
             }
         }
+        markerCount = squares.size();
         return squares;
     }
 
     public ArrayList<float[]> centroid(Image image){
         square(image);
         centroids = new ArrayList<float[]>();
-        for(int i = 0;i < squares.size();i++) {
+        for(int i = 0;i < markerCount;i++) {
             float[] pair = {0f, 0f};
             centroids.add(pair);
         }
@@ -62,7 +69,6 @@ public class MorphologyCircle {
 
     public void centralMoment(Image image){
         centroid(image);
-        int markerCount = squares.size();
         muRRArr = new float[markerCount];
         muRCArr = new float[markerCount];
         muCCArr = new float[markerCount];
@@ -78,7 +84,7 @@ public class MorphologyCircle {
                 }
             }
         }
-        Utils.log("second-order moment");
+        Utils.log("second-order moments");
         for(int i = 0;i < markerCount;i++){
             muRRArr[i] /= squares.get(i);
             muRCArr[i] /= squares.get(i);
@@ -89,32 +95,31 @@ public class MorphologyCircle {
 
     public void principalAxis(Image image){
         centralMoment(image);
-        int marketCount = squares.size();
-        double[] alphasL = new double[marketCount];
-        double[] alphasS = new double[marketCount];
-        double[] betasL = new double[marketCount];
-        double[] betasS = new double[marketCount];
-        double[] lengthL = new double[marketCount];
-        double[] lengthS = new double[marketCount];
-        double[] muRCaB = new double[marketCount];
-        double[] muRCaS = new double[marketCount];
-        for(int i = 0;i < marketCount;i++){
-            muRCaB[i] = 0;
+        double[] alphasL = new double[markerCount];
+        double[] alphasS = new double[markerCount];
+        double[] betasL = new double[markerCount];
+        double[] betasS = new double[markerCount];
+        double[] lengthL = new double[markerCount];
+        double[] lengthS = new double[markerCount];
+        muRCaL = new float[markerCount];
+        muRCaS = new float[markerCount];
+        for(int i = 0;i < markerCount;i++){
+            muRCaL[i] = 0;
             muRCaS[i] = 0;
         }
-        for(int i = 0;i < marketCount;i++){
+        for(int i = 0;i < markerCount;i++){
             float muRR = muRRArr[i];
             float muRC = muRCArr[i];
             float muCC = muCCArr[i];
             if(muRC == 0 && muRR > muCC){
-                alphasL[i] = 90;
+                alphasL[i] = -90;
                 alphasS[i] = 0;
                 lengthL[i] = 4*Math.sqrt(muRR);
                 lengthS[i] = 4*Math.sqrt(muCC);
             } else
             if(muRC == 0 && muRR <= muCC){
                 alphasL[i] = 0;
-                alphasS[i] = 90;
+                alphasS[i] = -90;
                 lengthL[i] = 4*Math.sqrt(muCC);
                 lengthS[i] = 4*Math.sqrt(muRR);
             } else
@@ -122,7 +127,7 @@ public class MorphologyCircle {
                 double angle = (-2*muRC) / (muRR - muCC + Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2)));
                 alphasL[i] = Math.toDegrees(Math.atan(angle));
                 alphasL[i] = alphasL[i] < 0 ? -alphasL[i] + 90 : 90 - alphasL[i];
-                alphasS[i] = alphasL[i] - 90;
+                alphasS[i] = alphasL[i] + 90;
                 lengthL[i] = Math.sqrt(8*(muRR + muCC + Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
                 lengthS[i] = Math.sqrt(8*(muRR + muCC - Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
             } else
@@ -130,18 +135,18 @@ public class MorphologyCircle {
                 double angle = Math.sqrt(muCC + muRR + Math.sqrt(Math.pow(muCC - muRR, 2) + 4*Math.pow(muRC, 2))) / (-2*muRC);
                 alphasL[i] = Math.toDegrees(Math.atan(angle));
                 alphasL[i] = alphasL[i] < 0 ? -alphasL[i] + 90 : 90 - alphasL[i];
-                alphasS[i] = alphasL[i] - 90;
+                alphasS[i] = alphasL[i] + 90;
                 lengthL[i] = Math.sqrt(8*(muRR + muCC + Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
                 lengthS[i] = Math.sqrt(8*(muRR + muCC - Math.sqrt(Math.pow(muRR - muCC, 2) + 4*Math.pow(muRC, 2))));
             }
             betasL[i] = Math.toRadians(alphasL[i]);
             betasS[i] = Math.toRadians(alphasS[i]);
         }
-        Utils.log("alpha");
-        for(int i = 0;i < marketCount;i++)
+        Utils.log("alphas");
+        for(int i = 0;i < markerCount;i++)
             Utils.log("%s: %s %s", i, alphasL[i], alphasS[i]);
-        Utils.log("length");
-        for(int i = 0;i < marketCount;i++)
+        Utils.log("lengths");
+        for(int i = 0;i < markerCount;i++)
             Utils.log("%s: %s %s", i, lengthL[i], lengthS[i]);
 
         for(int i = 0;i < image.height;i++){
@@ -149,15 +154,60 @@ public class MorphologyCircle {
                 if(image.matrix[i][j] != 0){
                     int p = image.matrix[i][j];
                     float[] centroid = centroids.get(p);
-                    muRCaB[p] += Math.pow((i - centroid[0])*Math.cos(betasL[p]) + (j - centroid[1])*Math.sin(betasL[p]), 2);
+                    muRCaL[p] += Math.pow((i - centroid[0])*Math.cos(betasL[p]) + (j - centroid[1])*Math.sin(betasL[p]), 2);
                     muRCaS[p] += Math.pow((i - centroid[0])*Math.cos(betasS[p]) + (j - centroid[1])*Math.sin(betasS[p]), 2);
                 }
             }
         }
-        for(int i = 0;i < marketCount;i++){
-            muRCaB[i] = muRCaB[i] / squares.get(i);
+        for(int i = 0;i < markerCount;i++){
+            muRCaL[i] = muRCaL[i] / squares.get(i);
             muRCaS[i] = muRCaS[i] / squares.get(i);
-            Utils.log("%s: muRCaL %s muRCaS %s", i, muRCaB[i], muRCaS[i]);
+            Utils.log("%s: muRCaL %s muRCaS %s", i, muRCaL[i], muRCaS[i]);
+        }
+    }
+
+    public float[] getMuRRArr() {
+        return muRRArr;
+    }
+
+    public float[] getMuRCArr() {
+        return muRCArr;
+    }
+
+    public float[] getMuCCArr() {
+        return muCCArr;
+    }
+
+    public float[] getMuRCaL() {
+        return muRCaL;
+    }
+
+    public float[] getMuRCaS() {
+        return muRCaS;
+    }
+
+    public static void saveStat(){
+        JSONArray jsonArray = new JSONArray();
+        for(int i = 0;i < 10;i++){
+            String fileName = String.format("/home/ivan/Study/diplom/images/%s.pgm", i);
+            Image image = new Image(fileName);
+            image.toBinary(image.intensity / 2);
+
+            ConnectedComponent connected = new ConnectedComponent(image);
+            image = connected.classicalConnect();
+
+            MorphologyCircle morphology = new MorphologyCircle();
+            morphology.principalAxis(image);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(Const.VALUE, i);
+            jsonObject.put(Const.MU_RR, morphology.getMuRRArr()[1]);
+            jsonObject.put(Const.MU_CC, morphology.getMuCCArr()[1]);
+            jsonObject.put(Const.MU_RC, morphology.getMuRCArr()[1]);
+            jsonObject.put(Const.MU_RCA_L, morphology.getMuRCaL()[1]);
+            jsonObject.put(Const.MU_RCA_S, morphology.getMuRCaS()[1]);
+
+            jsonArray.put(jsonObject);
         }
     }
 
