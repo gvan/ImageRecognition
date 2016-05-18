@@ -3,6 +3,7 @@ package com.gvan;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,35 +21,23 @@ public class MorphologyCircle {
     private float[] muRCaL;
     private float[] muRCaS;
 
+    public static  final String statFileName = "/home/ivan/Study/diplom/images/digits/stat.json";
 
-    public ArrayList<Integer> square(Image image){
+
+    public ArrayList<Integer> squareAndCentroid(Image image){
         squares = new ArrayList<Integer>();
+        centroids = new ArrayList<float[]>();
+
         for(int i = 0;i < image.height;i++) {
             for (int j = 0; j < image.width; j++) {
                 if(image.matrix[i][j] != 0){
                     int p = image.matrix[i][j];
-                    while (p >= squares.size())
+                    while (p >= squares.size()) {
                         squares.add(0);
+                        float[] pair = {0f, 0f};
+                        centroids.add(pair);
+                    }
                     squares.set(p, squares.get(p) + 1);
-                }
-            }
-        }
-        markerCount = squares.size();
-        return squares;
-    }
-
-    public ArrayList<float[]> centroid(Image image){
-        square(image);
-        centroids = new ArrayList<float[]>();
-        for(int i = 0;i < markerCount;i++) {
-            float[] pair = {0f, 0f};
-            centroids.add(pair);
-        }
-
-        for(int i = 0;i < image.height;i++){
-            for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] != 0){
-                    int p = image.matrix[i][j];
                     float[] pair = centroids.get(p);
                     pair[0] += i;
                     pair[1] += j;
@@ -56,7 +45,8 @@ public class MorphologyCircle {
             }
         }
 
-        Utils.log("centroid");
+        Utils.log("================================");
+        Utils.log("centroids");
         for(int i = 0;i < centroids.size();i++){
             float[] pair = centroids.get(i);
             pair[0] /= squares.get(i);
@@ -64,11 +54,16 @@ public class MorphologyCircle {
             Utils.log("%s: %s %s", i, pair[0], pair[1]);
         }
 
-        return centroids;
+        markerCount = squares.size();
+        Utils.log("squares");
+        for(int i = 0;i < squares.size();i++){
+            Utils.log("%s: %s", i , squares.get(i));
+        }
+        return squares;
     }
 
     public void centralMoment(Image image){
-        centroid(image);
+        squareAndCentroid(image);
         muRRArr = new float[markerCount];
         muRCArr = new float[markerCount];
         muCCArr = new float[markerCount];
@@ -189,7 +184,7 @@ public class MorphologyCircle {
     public static void saveStat(){
         JSONArray jsonArray = new JSONArray();
         for(int i = 0;i < 10;i++){
-            String fileName = String.format("/home/ivan/Study/diplom/images/%s.pgm", i);
+            String fileName = String.format("/home/ivan/Study/diplom/images/digits/%s.pgm", i);
             Image image = new Image(fileName);
             image.toBinary(image.intensity / 2);
 
@@ -209,6 +204,76 @@ public class MorphologyCircle {
 
             jsonArray.put(jsonObject);
         }
+
+        File file = new File(statFileName);
+        try {
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(jsonArray.toString().getBytes());
+            outputStream.flush();
+            outputStream.close();
+            Utils.log("stat %s", jsonArray.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int classifyDigit(String fileName){
+        int digit = 0;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(statFileName));
+            StringBuffer stringBuffer = new StringBuffer();
+            String line;
+            while ((line = bufferedReader.readLine()) != null)
+                stringBuffer.append(line);
+            bufferedReader.close();
+
+            JSONArray jsonArray = new JSONArray(stringBuffer.toString());
+            List<SecondOrderMoment> moments = new ArrayList<SecondOrderMoment>();
+            for(int i = 0;i < jsonArray.length();i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                SecondOrderMoment moment = new SecondOrderMoment();
+                moment.muRR = (float) jsonObject.getDouble(Const.MU_RR);
+                moment.muRC = (float) jsonObject.getDouble(Const.MU_RC);
+                moment.muCC = (float) jsonObject.getDouble(Const.MU_CC);
+                moment.muRCaL = (float) jsonObject.getDouble(Const.MU_RCA_L);
+                moment.muRCaS = (float) jsonObject.getDouble(Const.MU_RCA_S);
+                moment.value = jsonObject.getInt(Const.VALUE);
+                moments.add(moment);
+            }
+
+            Image image = new Image(fileName);
+            image.toBinary(image.intensity/2);
+
+            ConnectedComponent connectedComponent = new ConnectedComponent(image);
+            image = connectedComponent.classicalConnect();
+
+            MorphologyCircle morphology = new MorphologyCircle();
+            morphology.principalAxis(image);
+
+            float minDiff = Float.MAX_VALUE;
+            for(SecondOrderMoment moment : moments){
+                moment.muRR = Math.abs(morphology.getMuRRArr()[1] - moment.muRR);
+                moment.muRC = Math.abs(morphology.getMuRCArr()[1] - moment.muRC);
+                moment.muCC = Math.abs(morphology.getMuCCArr()[1] - moment.muCC);
+                moment.muRCaL = Math.abs(morphology.getMuRCaL()[1] - moment.muRCaL);
+                moment.muRCaS = Math.abs(morphology.getMuRCaS()[1] - moment.muRCaS);
+                float diff = moment.muRR + moment.muRC + moment.muCC + moment.muRCaL + moment.muRCaS;
+                if(diff < minDiff){
+                    minDiff = diff;
+                    digit = moment.value;
+                }
+            }
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return digit;
     }
 
     public List<BoundsRectangle> getBoundsRectangles(Image image){
@@ -231,7 +296,7 @@ public class MorphologyCircle {
     }
 
     public float[] roundCriterion(Image image){
-        centroid(image);
+        squareAndCentroid(image);
         int marketsCount = centroids.size();
         int[] Ks = new int[marketsCount];
         float[] muR = new float[marketsCount];
@@ -286,6 +351,19 @@ public class MorphologyCircle {
                 if(matrix[r+i][c+j] != p)
                     return true;
         return false;
+    }
+
+    private static class SecondOrderMoment{
+
+        public SecondOrderMoment() {
+        }
+
+        private float muRR;
+        private float muRC;
+        private float muCC;
+        private float muRCaL;
+        private float muRCaS;
+        private int value;
     }
 
 }

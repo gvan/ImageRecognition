@@ -7,17 +7,20 @@ public class Main {
         String fileName = "/home/ivan/Study/diplom/images/binary.pgm";
 //        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
 
-        Image image = new Image(fileName);
-        image.toBinary(image.intensity/2);
-        image.printImage();
+//        Image image = new Image(fileName);
+//        image.toBinary(image.intensity/2);
+//        image.printImage();
+//
+//        ConnectedComponent connectedComponent = new ConnectedComponent(image);
+//        image = connectedComponent.classicalConnect();
+//        image.printImage();
 
-        ConnectedComponent connectedComponent = new ConnectedComponent(image);
-        image = connectedComponent.classicalConnect();
-        image.printImage();
+//        MorphologyCircle morphology = new MorphologyCircle();
+//        morphology.principalAxis(image);
 
-        MorphologyCircle morphology = new MorphologyCircle();
-        morphology.principalAxis(image);
-
+//        MorphologyCircle.saveStat();
+        int digit = MorphologyCircle.classifyDigit(fileName);
+        Utils.log("digit %s", digit);
     }
 
 }
