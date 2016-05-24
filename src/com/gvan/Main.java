@@ -4,23 +4,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String fileName = "/home/ivan/Study/diplom/images/binary.pgm";
+        String fileName = "/home/ivan/Study/diplom/images/baboon.pgm";
+        String outFileName = "/home/ivan/Study/diplom/images/binarization.pgm";
 //        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
 
-//        Image image = new Image(fileName);
-//        image.toBinary(image.intensity/2);
-//        image.printImage();
-//
-//        ConnectedComponent connectedComponent = new ConnectedComponent(image);
-//        image = connectedComponent.classicalConnect();
-//        image.printImage();
+        Image image = new Image(fileName);
+        Binarization binarization = new Binarization();
+        binarization.binarize(image).saveFile(outFileName);
 
-//        MorphologyCircle morphology = new MorphologyCircle();
-//        morphology.principalAxis(image);
-
-//        MorphologyCircle.saveStat();
-        int digit = MorphologyCircle.classifyDigit(fileName);
-        Utils.log("digit %s", digit);
     }
 
 }
