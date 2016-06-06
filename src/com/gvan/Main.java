@@ -13,7 +13,8 @@ public class Main {
         image = binarization.binarize(image);
 
         AffineTransformation affine = new AffineTransformation();
-        affine.rotate(image, Math.toRadians(45)).saveFile(outFileName);
+        image = affine.rotate(image, Math.toRadians(130));
+        image.saveFile(outFileName);
     }
 
 }
