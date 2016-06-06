@@ -76,7 +76,7 @@ public class Image {
             stringBuilder.append(String.format("%s\n", intensity));
             for(int i = 0;i < height;i++)
                 for(int j = 0;j < width;j++)
-                    stringBuilder.append(String.format("%s ",(byte)matrix[i][j]));
+                    stringBuilder.append(String.format("%s ",matrix[i][j]));
 
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(stringBuilder.toString().getBytes());
