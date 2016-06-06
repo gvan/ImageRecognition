@@ -1,6 +1,7 @@
 package com.gvan;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -8,7 +9,13 @@ import java.util.List;
  */
 public class QrReader {
 
+    private Point fp1;
+    private Point fp2;
+    private Point fp3;
+    private int fSide = 0;
+
     public void recognizeFindPatterns(Image image){
+        List<Points> pointses = new ArrayList<Points>();
         for(int i = 0;i < image.height;i++){
             int rPrevPixel = image.matrix[i][0];
             List<Integer> rLengths = new ArrayList<Integer>();
@@ -62,7 +69,26 @@ public class QrReader {
                                 int cL5 = cLengths.get(k + 2);
                                 if(Math.round((float)cL1/cL2) == 1 && Math.round((float)cL3/cL1) == 3 &&
                                         Math.round((float)cL4/cL5) == 1 && Math.round((float)cL3/cL4) == 3){
-                                    Utils.log("find pattern i=%s j=%s", i, cols);
+//                                    Utils.log("find pattern i=%s j=%s", i, cols);
+                                    Point point = new Point(cols, i);
+                                    if(pointses.size() == 0){
+                                        Points points = new Points();
+                                        points.addPoint(point);
+                                        pointses.add(points);
+                                    } else {
+                                        boolean pointAdded = false;
+                                        for(Points points : pointses){
+                                            if(points.isNear(point)) {
+                                                points.addPoint(point);
+                                                pointAdded = true;
+                                            }
+                                        }
+                                        if(!pointAdded){
+                                            Points points = new Points();
+                                            points.addPoint(point);
+                                            pointses.add(points);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -70,6 +96,74 @@ public class QrReader {
                 }
             }
         }
+
+        if(pointses.size() > 2){
+            pointses.sort(new Comparator<Points>() {
+                @Override
+                public int compare(Points o1, Points o2) {
+                    if(o1.size() < o2.size())
+                        return 1;
+                    if(o1.size() > o2.size())
+                        return -1;
+                    return 0;
+                }
+            });
+            fp1 = pointses.get(0).getAvPoint();
+            fp2 = pointses.get(1).getAvPoint();
+            fp3 = pointses.get(2).getAvPoint();
+
+            fSide = 0;
+            fSide += pointses.get(0).getHeight();
+            fSide += pointses.get(1).getHeight();
+            fSide += pointses.get(2).getHeight();
+            fSide /= 3;
+
+            Utils.log("fp1 : %s, %s; fp2: %s, %s; fp3: %s, %s", fp1.c, fp1.r, fp2.c, fp2.r, fp3.c, fp3.r);
+            Utils.log("fSide %s", fSide);
+        }
+    }
+
+    private class Points{
+
+        private List<Point> points;
+
+        public Points() {
+            this.points = new ArrayList<Point>();
+        }
+
+        public boolean isNear(Point point){
+            for(Point pointLocal : points){
+                if(Math.abs(pointLocal.c - point.c) < 2 &&
+                        Math.abs(pointLocal.r - point.r) < 2){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void addPoint(Point point){
+            this.points.add(point);
+        }
+
+        public int size(){
+            return points.size();
+        }
+
+        public Point getAvPoint(){
+            int c = 0, r = 0;
+            for(Point point : points){
+                c += point.c;
+                r += point.r;
+            }
+            c /= points.size();
+            r /= points.size();
+            return new Point(c, r);
+        }
+
+        public int getHeight(){
+            return Math.abs(points.get(points.size() - 1).r - points.get(0).r);
+        }
+
     }
 
 }
