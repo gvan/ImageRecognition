@@ -25,14 +25,14 @@ public class Binarization {
         }
 
 //        Print the histogram
-        float k = 50/maxP;
-        for(int i = 0;i < image.intensity + 1;i++){
-            int n = (int) (k*P[i]);
-            StringBuilder stringBuilder = new StringBuilder();
-            for(int j = 0;j < n;j++)
-                stringBuilder.append("# ");
-            Utils.log(String.format("%s: %s", i, stringBuilder.toString()));
-        }
+//        float k = 50/maxP;
+//        for(int i = 0;i < image.intensity + 1;i++){
+//            int n = (int) (k*P[i]);
+//            StringBuilder stringBuilder = new StringBuilder();
+//            for(int j = 0;j < n;j++)
+//                stringBuilder.append("# ");
+//            Utils.log(String.format("%s: %s", i, stringBuilder.toString()));
+//        }
     }
 
     public int getThreshold(Image image){
@@ -45,13 +45,13 @@ public class Binarization {
 
         for(int i = 0;i < P.length;i++)
             mu += i*P[i];
-        Utils.log("mu %s", mu);
+//        Utils.log("mu %s", mu);
         for(int t = 1;t < image.intensity;t++){
             float q1_t_plus_1 = q1_t + P[t];
             float mu1_t_plus_1 = q1_t_plus_1 == 0 ? 0 :(q1_t*mu1_t + t*P[t]) / q1_t_plus_1;
             float mu2_t_plus_1 = (mu - q1_t_plus_1*mu1_t_plus_1) / (1 - q1_t_plus_1);
             double sigma = q1_t_plus_1*(1 - q1_t_plus_1)*Math.pow(mu1_t_plus_1 - mu2_t_plus_1, 2);
-            Utils.log("%s: sigma %s", t, sigma);
+//            Utils.log("%s: sigma %s", t, sigma);
             if(sigma >= maxSigma){
                 maxSigma = sigma;
                 bestT = t;
