@@ -1,4 +1,4 @@
-package com.gvan;
+package com.gvan.geom;
 
 import java.io.*;
 import java.util.Scanner;
@@ -11,7 +11,7 @@ public class Image {
     public int width;
     public int height;
     public int intensity;
-    public int[][] matrix;
+    public int[][] bitmap;
 
     public Image() {
     }
@@ -20,10 +20,10 @@ public class Image {
         this.width = width;
         this.height = height;
         this.intensity = intensity;
-        matrix = new int[height][width];
+        bitmap = new int[height][width];
         for(int i = 0;i < height;i++)
             for(int j = 0;j < width;j++)
-                matrix[i][j] = 0;
+                bitmap[i][j] = 0;
     }
 
     public Image(String fileName){
@@ -51,16 +51,21 @@ public class Image {
                 lines--;
             }
 
-            matrix = new int[height][width];
+            bitmap = new int[height][width];
             for(int r = 0;r < height; r++)
                 for(int c = 0;c < width;c++){
-                    matrix[r][c] = dataInputStream.readUnsignedByte();
+                    bitmap[r][c] = dataInputStream.readUnsignedByte();
                 }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveFile(){
+        String outFileName = "/home/ivan/Study/diplom/images/output.pgm";
+        saveFile(outFileName);
     }
 
     public void saveFile(String filePath){
@@ -76,7 +81,7 @@ public class Image {
             stringBuilder.append(String.format("%s\n", intensity));
             for(int i = 0;i < height;i++)
                 for(int j = 0;j < width;j++)
-                    stringBuilder.append(String.format("%s ",matrix[i][j]));
+                    stringBuilder.append(String.format("%s ", bitmap[i][j]));
 
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(stringBuilder.toString().getBytes());
@@ -91,7 +96,11 @@ public class Image {
     public void toBinary(int threshold){
         for(int r = 0;r < height;r++)
             for(int c = 0;c < width;c++)
-                matrix[r][c] = matrix[r][c] > threshold ? 1 : 0;
+                bitmap[r][c] = bitmap[r][c] > threshold ? 1 : 0;
+    }
+
+    public int getLongSide(){
+        return width > height ? width : height;
     }
 
     public  void printImage(){
@@ -99,7 +108,7 @@ public class Image {
         for(int r = 0;r < height;r++) {
             StringBuilder builder = new StringBuilder();
             for (int c = 0;c < width;c++){
-                builder.append(String.format("%s ", matrix[r][c]));
+                builder.append(String.format("%s ", bitmap[r][c]));
             }
             System.out.printf(String.format("%s\n", builder.toString()));
         }
@@ -110,7 +119,7 @@ public class Image {
         for(int r = 0;r < height;r++) {
             StringBuilder builder = new StringBuilder();
             for (int c = 0;c < width;c++){
-                builder.append(String.format("%s ", matrix[r][c] == 1 ? '⬛' : ' '));
+                builder.append(String.format("%s ", bitmap[r][c] == 1 ? '⬛' : ' '));
             }
             System.out.printf(String.format("%s\n", builder.toString()));
         }
@@ -121,24 +130,17 @@ public class Image {
         image.width = width;
         image.height = height;
         image.intensity = intensity;
-        image.matrix = new int[height][width];
+        image.bitmap = new int[height][width];
         for(int i = 0;i < height;i++)
             for(int j = 0;j < width;j++)
-                image.matrix[i][j] = matrix[i][j];
+                image.bitmap[i][j] = bitmap[i][j];
         return image;
-    }
-
-    public Image zero(){
-        for(int i = 0;i < height;i++)
-            for(int j = 0;j < width;j++)
-                matrix[i][j] = 0;
-        return this;
     }
 
     public boolean equals(Image image){
         for(int i = 0;i < height;i++){
             for(int j = 0;j < width;j++){
-                if(matrix[i][j] != image.matrix[i][j])
+                if(bitmap[i][j] != image.bitmap[i][j])
                     return false;
             }
         }

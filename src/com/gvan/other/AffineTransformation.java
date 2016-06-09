@@ -1,7 +1,7 @@
-package com.gvan;
+package com.gvan.other;
 
-import java.util.Arrays;
-import java.util.List;
+import com.gvan.Utils;
+import com.gvan.geom.Image;
 
 /**
  * Created by betinvest on 6/6/16.
@@ -15,7 +15,7 @@ public class AffineTransformation {
                 int nI = i + dC;
                 int nJ = j + dR;
                 if(nI > 0 && nI < image.height && nJ > 0 && nJ < image.width){
-                    resImage.matrix[nI][nJ] = image.matrix[i][j];
+                    resImage.bitmap[nI][nJ] = image.bitmap[i][j];
                 }
             }
         }
@@ -35,15 +35,15 @@ public class AffineTransformation {
         int maxY = max(yExtremes);
         Utils.log("minX %s maxX %s minY %s maxY %s", minX, maxX, minY, maxY);
 
-        int nWidth = Math.abs(minX) + Math.abs(maxX);
-        int nHeight = Math.abs(minY) + Math.abs(maxY);
+        int nWidth = maxX - minX;
+        int nHeight = maxY - minY;
         Image resImage = new Image(nWidth, nHeight, image.intensity);
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
                 int nJ = (int)(Math.cos(a)*j - Math.sin(a)*i) + Math.abs(minX);
                 int nI = (int)(Math.cos(a)*j + Math.sin(a)*i) + Math.abs(minY);
                 if(nI > 0 && nI < nHeight && nJ > 0 && nJ < nWidth){
-                    resImage.matrix[nI][nJ] = image.matrix[i][j];
+                    resImage.bitmap[nI][nJ] = image.bitmap[i][j];
                 }
             }
         }

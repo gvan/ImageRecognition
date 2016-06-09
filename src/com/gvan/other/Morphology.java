@@ -1,8 +1,7 @@
-package com.gvan;
+package com.gvan.other;
 
-import javafx.util.Pair;
-
-import java.util.ArrayList;
+import com.gvan.Utils;
+import com.gvan.geom.Image;
 
 /**
  * Created by betinvest on 5/10/16.
@@ -41,11 +40,11 @@ public class Morphology {
         Image resImage = new Image(image.width, image.height, 1);
         for(int i = sY;i < image.height - sY;i++){
             for(int j = sX;j < image.width - sX;j++){
-                if(image.matrix[i][j] == 1){
+                if(image.bitmap[i][j] == 1){
                     for(int k = i - sY;k <= i + sY;k++){
                         for(int l = j - sX;l <= j + sX;l++){
                             if(struct[k % sRows][l % sCols] == 1){
-                                resImage.matrix[k][l] = resImage.intensity;
+                                resImage.bitmap[k][l] = resImage.intensity;
                             }
                         }
                     }
@@ -62,7 +61,7 @@ public class Morphology {
                 boolean adjust = true;
                 for(int k = i - sY;k <= i + sY;k++){
                     for(int l = j - sX;l <= j + sX;l++){
-                        if(image.matrix[k][l] == 0){
+                        if(image.bitmap[k][l] == 0){
                             adjust = false;
                             break;
                         }
@@ -71,7 +70,7 @@ public class Morphology {
                         break;
                 }
                 if(adjust)
-                    resImage.matrix[i][j] = 1;
+                    resImage.bitmap[i][j] = 1;
             }
         }
         return resImage;
@@ -89,7 +88,7 @@ public class Morphology {
         Image resImage = new Image(image1.width, image1.height, 1);
         for(int i = 0;i < image1.height;i++){
             for(int j = 0;j < image1.width;j++){
-                resImage.matrix[i][j] = image1.matrix[i][j] | image2.matrix[i][j];
+                resImage.bitmap[i][j] = image1.bitmap[i][j] | image2.bitmap[i][j];
             }
         }
         return resImage;
@@ -99,7 +98,7 @@ public class Morphology {
         Image resImage = new Image(image1.width, image1.height, 1);
         for(int i = 0;i < image1.width;i++){
             for(int j = 0;j < image1.height;j++){
-                resImage.matrix[i][j] = image1.matrix[i][j] & image2.matrix[i][j];
+                resImage.bitmap[i][j] = image1.bitmap[i][j] & image2.bitmap[i][j];
             }
         }
         return resImage;

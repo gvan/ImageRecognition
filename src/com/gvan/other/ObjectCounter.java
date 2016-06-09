@@ -1,4 +1,7 @@
-package com.gvan;
+package com.gvan.other;
+
+import com.gvan.Utils;
+import com.gvan.geom.Image;
 
 /**
  * Created by ivan on 4/14/16.
@@ -43,10 +46,10 @@ public class ObjectCounter {
 
     public int getObjectCount(Image image){
         int externals = 0, internals = 0;
-        for(int r = 0;r < image.matrix.length - 1;r++){
-            for(int c = 0;c < image.matrix[r].length - 1;c++){
-                if(externalMatch(r, c, image.matrix)) externals++;
-                if(internalMatch(r, c, image.matrix)) internals++;
+        for(int r = 0;r < image.bitmap.length - 1;r++){
+            for(int c = 0;c < image.bitmap[r].length - 1;c++){
+                if(externalMatch(r, c, image.bitmap)) externals++;
+                if(internalMatch(r, c, image.bitmap)) internals++;
             }
         }
         Utils.log("externals %s internals %s", externals, internals);

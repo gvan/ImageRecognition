@@ -1,4 +1,6 @@
-package com.gvan;
+package com.gvan.other;
+
+import com.gvan.geom.Image;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,28 +28,28 @@ public class ConnectedComponent {
         int nextRegion = 1;
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] == 0) continue;
+                if(image.bitmap[i][j] == 0) continue;
                 int k = 0;
                 boolean connected = false;
-                if(j > 0 && image.matrix[i][j - 1] == image.matrix[i][j]){
-                    k = imageRst.matrix[i][j - 1];
+                if(j > 0 && image.bitmap[i][j - 1] == image.bitmap[i][j]){
+                    k = imageRst.bitmap[i][j - 1];
                     connected = true;
                 }
-                if(i > 0 && image.matrix[i - 1][j] == image.matrix[i][j] &&
-                        (!connected || image.matrix[i - 1][j] < k)){
-                    k = imageRst.matrix[i - 1][j];
+                if(i > 0 && image.bitmap[i - 1][j] == image.bitmap[i][j] &&
+                        (!connected || image.bitmap[i - 1][j] < k)){
+                    k = imageRst.bitmap[i - 1][j];
                     connected = true;
                 }
                 if(!connected){
                     k = nextRegion;
                     nextRegion++;
                 }
-                imageRst.matrix[i][j] = k;
-                if(j > 0 && image.matrix[i][j - 1] == image.matrix[i][j] && imageRst.matrix[i][j - 1] != k)
-                    union(k, imageRst.matrix[i][j - 1], parent);
+                imageRst.bitmap[i][j] = k;
+                if(j > 0 && image.bitmap[i][j - 1] == image.bitmap[i][j] && imageRst.bitmap[i][j - 1] != k)
+                    union(k, imageRst.bitmap[i][j - 1], parent);
                 else
-                if(i > 0 && image.matrix[i - 1][j] == image.matrix[i][j] && imageRst.matrix[i - 1][j] != k)
-                    union(k, imageRst.matrix[i - 1][j], parent);
+                if(i > 0 && image.bitmap[i - 1][j] == image.bitmap[i][j] && imageRst.bitmap[i - 1][j] != k)
+                    union(k, imageRst.bitmap[i - 1][j], parent);
                 else
                 if(parent.size() <= k)
                     for(int l = parent.size();l <= k;l++)
@@ -62,8 +64,8 @@ public class ConnectedComponent {
         nextLabel = 1;
         for(int i = 0;i < imageRst.height;i++){
             for(int j = 0;j < imageRst.width;j++){
-                if(imageRst.matrix[i][j] > 0){
-                    imageRst.matrix[i][j] = find(imageRst.matrix[i][j], parent, labels);
+                if(imageRst.bitmap[i][j] > 0){
+                    imageRst.bitmap[i][j] = find(imageRst.bitmap[i][j], parent, labels);
                 }
             }
         }
@@ -112,7 +114,7 @@ public class ConnectedComponent {
         int label = 0;
         for(int i = 0;i < image.height;i++)
             for(int j = 0;j < image.width;j++)
-                if(image.matrix[i][j] == -1){
+                if(image.bitmap[i][j] == -1){
                     search(++label, i, j);
                 }
         image.intensity = label;
@@ -120,10 +122,10 @@ public class ConnectedComponent {
     }
 
     private void search(int label, int row, int col){
-        image.matrix[row][col] = label;
+        image.bitmap[row][col] = label;
         int[][] neighbors = neighbors(row, col);
         for(int[] neighbor : neighbors)
-            if(image.matrix[neighbor[0]][neighbor[1]] == -1)
+            if(image.bitmap[neighbor[0]][neighbor[1]] == -1)
                 search(label, neighbor[0], neighbor[1]);
     }
 
@@ -151,8 +153,8 @@ public class ConnectedComponent {
     private void negate(){
         for(int i = 0;i < image.width;i++)
             for(int j = 0;j < image.height;j++)
-                if(image.matrix[i][j] == 1)
-                    image.matrix[i][j] = -1;
+                if(image.bitmap[i][j] == 1)
+                    image.bitmap[i][j] = -1;
     }
 
 }

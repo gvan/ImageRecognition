@@ -1,5 +1,9 @@
 package com.gvan;
 
+import com.gvan.geom.BinaryImage;
+import com.gvan.geom.Image;
+import com.gvan.geom.Point;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -9,15 +13,24 @@ import java.util.List;
  */
 public class QrReader {
 
+    public static int DECIMAL_POINT = 21;
+
     private Point fp1;
     private Point fp2;
     private Point fp3;
     private int fSide = 0;
 
+    public static void read(String fileName){
+        Image colorImage = new Image(fileName);
+        DECIMAL_POINT = 23 - Utils.sqrt(colorImage.getLongSide() / 256);
+        BinaryImage image = new BinaryImage(colorImage);
+        FindPattern findPattern = new FindPattern(image);
+    }
+
     public void recognizeFindPatterns(Image image){
         List<Points> pointses = new ArrayList<Points>();
         for(int i = 0;i < image.height;i++){
-            int rPrevPixel = image.matrix[i][0];
+            int rPrevPixel = image.bitmap[i][0];
             List<Integer> rLengths = new ArrayList<Integer>();
             rLengths.add(0);//for first black
             if(rPrevPixel == 0)
@@ -25,7 +38,7 @@ public class QrReader {
             else
                 rLengths.add(0);
             for(int c = 1;c < image.width;c++){
-                int rPixel = image.matrix[i][c];
+                int rPixel = image.bitmap[i][c];
                 if(rPixel != rPrevPixel)
                     rLengths.add(0);
                 rLengths.set(rLengths.size() - 1, rLengths.get(rLengths.size() - 1) + 1);
@@ -45,7 +58,7 @@ public class QrReader {
                         for(int l = 0;l < j;l++)
                             cols += rLengths.get(l);
                         cols += rLengths.get(j)/2;
-                        int cPrevPixel = image.matrix[0][cols];
+                        int cPrevPixel = image.bitmap[0][cols];
                         List<Integer> cLengths = new ArrayList<Integer>();
                         cLengths.add(0);
                         if(cPrevPixel == 0)
@@ -53,7 +66,7 @@ public class QrReader {
                         else
                             cLengths.add(0);
                         for(int r = 1;r < image.height;r++){
-                            int cPixel = image.matrix[r][cols];
+                            int cPixel = image.bitmap[r][cols];
                             if(cPixel != cPrevPixel)
                                 cLengths.add(0);
                             cLengths.set(cLengths.size() - 1, cLengths.get(cLengths.size() - 1) + 1);

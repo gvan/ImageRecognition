@@ -1,5 +1,8 @@
-package com.gvan;
+package com.gvan.other;
 
+import com.gvan.Const;
+import com.gvan.Utils;
+import com.gvan.geom.Image;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -30,8 +33,8 @@ public class MorphologyCircle {
 
         for(int i = 0;i < image.height;i++) {
             for (int j = 0; j < image.width; j++) {
-                if(image.matrix[i][j] != 0){
-                    int p = image.matrix[i][j];
+                if(image.bitmap[i][j] != 0){
+                    int p = image.bitmap[i][j];
                     while (p >= squares.size()) {
                         squares.add(0);
                         float[] pair = {0f, 0f};
@@ -70,8 +73,8 @@ public class MorphologyCircle {
 
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] != 0){
-                    int p = image.matrix[i][j];
+                if(image.bitmap[i][j] != 0){
+                    int p = image.bitmap[i][j];
                     float[] centroid = centroids.get(p);
                     muRRArr[p] += Math.pow(i - centroid[0], 2);
                     muRCArr[p] += ((i - centroid[0])*(j - centroid[1]));
@@ -146,8 +149,8 @@ public class MorphologyCircle {
 
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] != 0){
-                    int p = image.matrix[i][j];
+                if(image.bitmap[i][j] != 0){
+                    int p = image.bitmap[i][j];
                     float[] centroid = centroids.get(p);
                     muRCaL[p] += Math.pow((i - centroid[0])*Math.cos(betasL[p]) + (j - centroid[1])*Math.sin(betasL[p]), 2);
                     muRCaS[p] += Math.pow((i - centroid[0])*Math.cos(betasS[p]) + (j - centroid[1])*Math.sin(betasS[p]), 2);
@@ -280,8 +283,8 @@ public class MorphologyCircle {
         List<BoundsRectangle> rectangles = new ArrayList<BoundsRectangle>();
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] != 0){
-                    int p = image.matrix[i][j];
+                if(image.bitmap[i][j] != 0){
+                    int p = image.bitmap[i][j];
                     while (p >= rectangles.size())
                         rectangles.add(new BoundsRectangle());
                     BoundsRectangle rectangle = rectangles.get(p);
@@ -309,12 +312,12 @@ public class MorphologyCircle {
         }
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] != 0){
-                    int p = image.matrix[i][j];
+                if(image.bitmap[i][j] != 0){
+                    int p = image.bitmap[i][j];
                     float[] centroid = centroids.get(p);
                     if(i == 0 || j == 0 ||
                             i == image.height - 1 || j == image.width - 1 ||
-                            hasNeighbor(i, j, image.matrix, p)){
+                            hasNeighbor(i, j, image.bitmap, p)){
                         muR[p] += Math.sqrt(Math.pow((centroid[0] - i), 2) + Math.pow((centroid[1] - j), 2));
                         Ks[p]++;
                     }
@@ -326,12 +329,12 @@ public class MorphologyCircle {
         }
         for(int i = 0;i < image.height;i++){
             for(int j = 0;j < image.width;j++){
-                if(image.matrix[i][j] != 0){
-                    int p = image.matrix[i][j];
+                if(image.bitmap[i][j] != 0){
+                    int p = image.bitmap[i][j];
                     float[] centroid = centroids.get(p);
                     if(i == 0 || j == 0 ||
                             i == image.height - 1 || j == image.width - 1 ||
-                            hasNeighbor(i, j, image.matrix, p)){
+                            hasNeighbor(i, j, image.bitmap, p)){
                         float dist = (float) Math.sqrt(Math.pow((centroid[0] - i), 2) + Math.pow((centroid[1] - j), 2));
                         sigR[p] += Math.pow((dist - muR[p]), 2);
                     }
