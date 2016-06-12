@@ -1,11 +1,12 @@
 package com.gvan;
 
+import com.gvan.exception.InvalidDataBlockException;
 import com.gvan.geom.BinaryImage;
 import com.gvan.geom.Image;
-import com.gvan.geom.Point;
+import com.gvan.pattern.AlignmentPattern;
+import com.gvan.pattern.FindPattern;
+import com.gvan.reedsolomon.RsDecode;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -15,168 +16,160 @@ public class QrReader {
 
     public static int DECIMAL_POINT = 21;
 
-    private Point fp1;
-    private Point fp2;
-    private Point fp3;
-    private int fSide = 0;
-
     public static void read(String fileName){
         Image colorImage = new Image(fileName);
         DECIMAL_POINT = 23 - Utils.sqrt(colorImage.getLongSide() / 256);
+        Utils.log("DECIMAL POINT %s", DECIMAL_POINT);
         BinaryImage image = new BinaryImage(colorImage);
-        FindPattern findPattern = new FindPattern(image);
+        List<FindPattern> findPatterns = FindPattern.recogFindPattern(image);
+        for(int i = 0;i < findPatterns.size();i++){
+            FindPattern findPattern = findPatterns.get(i);
+            AlignmentPattern alignmentPattern = AlignmentPattern.findAlignmentPattern(image.bitmap, findPattern);
+            SamplingGrid samplingGrid = SamplingGrid.getSamplingGrid(findPattern, alignmentPattern);
+            boolean[][] qrCodeMatrix = getQrCodeMatrix(image.bitmap, samplingGrid);
+            BinaryImage qrImage = new BinaryImage(qrCodeMatrix);
+            qrImage.saveFile(String.format("/home/ivan/Study/diplom/images/output%s.pgm", i));
+//            QrCodeSymbol qrCodeSymbol = new QrCodeSymbol(qrCodeMatrix);
+//            int[] blocks = qrCodeSymbol.getBlocks();
+//            blocks = correctDataBlocks(blocks, qrCodeSymbol);
+//            byte[] decodedByteArray = getDecodedByteArray(blocks, qrCodeSymbol.getVersion(), qrCodeSymbol.getNumErrorCollectionCode());
+//            Utils.log(decodedByteArray.toString());
+        }
     }
 
-    public void recognizeFindPatterns(Image image){
-        List<Points> pointses = new ArrayList<Points>();
-        for(int i = 0;i < image.height;i++){
-            int rPrevPixel = image.bitmap[i][0];
-            List<Integer> rLengths = new ArrayList<Integer>();
-            rLengths.add(0);//for first black
-            if(rPrevPixel == 0)
-                rLengths.set(0, 1);
-            else
-                rLengths.add(0);
-            for(int c = 1;c < image.width;c++){
-                int rPixel = image.bitmap[i][c];
-                if(rPixel != rPrevPixel)
-                    rLengths.add(0);
-                rLengths.set(rLengths.size() - 1, rLengths.get(rLengths.size() - 1) + 1);
-                rPrevPixel = rPixel;
-            }
-            if(rLengths.size() > 5){
-                for(int j = 2;j < rLengths.size() - 2;j++){
-                    if(j % 2 == 1) continue;
-                    int rL1 = rLengths.get(j - 2);
-                    int rL2 = rLengths.get(j - 1);
-                    int rL3 = rLengths.get(j);
-                    int rL4 = rLengths.get(j + 1);
-                    int rL5 = rLengths.get(j + 2);
-                    if(Math.round((float)rL1/rL2) == 1 && Math.round((float)rL3/rL2) == 3 &&
-                            Math.round((float)rL4/rL5) == 1 && Math.round((float)rL3/rL4) == 3){
-                        int cols = 0;
-                        for(int l = 0;l < j;l++)
-                            cols += rLengths.get(l);
-                        cols += rLengths.get(j)/2;
-                        int cPrevPixel = image.bitmap[0][cols];
-                        List<Integer> cLengths = new ArrayList<Integer>();
-                        cLengths.add(0);
-                        if(cPrevPixel == 0)
-                            cLengths.set(0, 1);
-                        else
-                            cLengths.add(0);
-                        for(int r = 1;r < image.height;r++){
-                            int cPixel = image.bitmap[r][cols];
-                            if(cPixel != cPrevPixel)
-                                cLengths.add(0);
-                            cLengths.set(cLengths.size() - 1, cLengths.get(cLengths.size() - 1) + 1);
-                            cPrevPixel = cPixel;
-                        }
-                        if(cLengths.size() > 5){
-                            for(int k = 2;k  < cLengths.size() - 2;k++){
-                                if(k % 2 == 1) continue;
-                                int cL1 = cLengths.get(k - 2);
-                                int cL2 = cLengths.get(k - 1);
-                                int cL3 = cLengths.get(k);
-                                int cL4 = cLengths.get(k + 1);
-                                int cL5 = cLengths.get(k + 2);
-                                if(Math.round((float)cL1/cL2) == 1 && Math.round((float)cL3/cL1) == 3 &&
-                                        Math.round((float)cL4/cL5) == 1 && Math.round((float)cL3/cL4) == 3){
-//                                    Utils.log("find pattern i=%s j=%s", i, cols);
-                                    Point point = new Point(cols, i);
-                                    if(pointses.size() == 0){
-                                        Points points = new Points();
-                                        points.addPoint(point);
-                                        pointses.add(points);
-                                    } else {
-                                        boolean pointAdded = false;
-                                        for(Points points : pointses){
-                                            if(points.isNear(point)) {
-                                                points.addPoint(point);
-                                                pointAdded = true;
-                                            }
-                                        }
-                                        if(!pointAdded){
-                                            Points points = new Points();
-                                            points.addPoint(point);
-                                            pointses.add(points);
-                                        }
-                                    }
-                                }
-                            }
-                        }
+    public static boolean[][] getQrCodeMatrix(boolean[][] image, SamplingGrid gridLines){
+        int gridSize = gridLines.getTotalWidth();
+        boolean[][] sampledMatrix = new boolean[gridSize][gridSize];
+        for(int ay = 0;ay < gridLines.getHeight();ay++){
+            for(int ax = 0;ax < gridLines.getWidth();ax++){
+                for(int y = 0;y < gridLines.getHeight(ax, ay);y++){
+                    for(int x = 0;x < gridLines.getWidth(ax, ay);x++){
+                        int x1 = gridLines.getXLine(ax,ay,x).getP1().getX();
+                        int y1 = gridLines.getXLine(ax,ay,x).getP1().getY();
+                        int x2 = gridLines.getXLine(ax,ay,x).getP2().getX();
+                        int y2 = gridLines.getXLine(ax,ay,x).getP2().getY();
+                        int x3 = gridLines.getYLine(ax,ay,y).getP1().getX();
+                        int y3 = gridLines.getYLine(ax,ay,y).getP1().getY();
+                        int x4 = gridLines.getYLine(ax,ay,y).getP2().getX();
+                        int y4 = gridLines.getYLine(ax,ay,y).getP2().getY();
+
+                        int e = (y2 - y1) * (x3 - x4) - (y4 - y3) * (x1 - x2);
+                        int f = (x1 * y2 - x2 * y1) * (x3 - x4) - (x3 * y4 - x4 * y3) * (x1 - x2);
+                        int g = (x3 * y4 - x4 * y3) * (y2 - y1) - (x1 * y2 - x2 * y1) * (y4 - y3);
+//                        Utils.log("f/e=%s, g/e=%s", (f/e), (g/e));
+                        sampledMatrix[gridLines.getX(ax, x)][gridLines.getY(ay, y)] = image[f / e][g / e];
                     }
                 }
             }
         }
 
-        if(pointses.size() > 2){
-            pointses.sort(new Comparator<Points>() {
-                @Override
-                public int compare(Points o1, Points o2) {
-                    if(o1.size() < o2.size())
-                        return 1;
-                    if(o1.size() > o2.size())
-                        return -1;
-                    return 0;
+        return sampledMatrix;
+    }
+
+    private static int[] correctDataBlocks(int[] blocks, QrCodeSymbol qrCodeSymbol) {
+        int numSucceededCorrections = 0;
+        int numCorrectionFailures = 0;
+        int dataCapacity = qrCodeSymbol.getDataCapacity();
+        int[] dataBlocks = new int[dataCapacity];
+        int numErrorCollectionCode = qrCodeSymbol.getNumErrorCollectionCode();
+        int numRSBlocks = qrCodeSymbol.getNumRSBlocks();
+        int eccPerRSBlock = numErrorCollectionCode / numRSBlocks;
+        if (numRSBlocks == 1) {
+            RsDecode corrector = new RsDecode(eccPerRSBlock / 2);
+            int ret = corrector.decode(blocks);
+            if (ret > 0)
+                numSucceededCorrections += ret;
+            else if (ret < 0)
+                numCorrectionFailures++;
+            return blocks;
+        }
+        else  { //we have to interleave data blocks because symbol has 2 or more RS blocks
+            int numLongerRSBlocks = dataCapacity % numRSBlocks;
+            if (numLongerRSBlocks == 0) { //symbol has only 1 type of RS block
+                int lengthRSBlock = dataCapacity / numRSBlocks;
+                int[][] RSBlocks = new int[numRSBlocks][lengthRSBlock];
+                //obtain RS blocks
+                for (int i = 0; i < numRSBlocks; i++) {
+                    for (int j = 0; j < lengthRSBlock; j++) {
+                        RSBlocks[i][j] = blocks[j * numRSBlocks + i];
+                    }
+                    RsDecode corrector = new RsDecode(eccPerRSBlock / 2);
+                    int ret = corrector.decode(RSBlocks[i]);
+                    if (ret > 0)
+                        numSucceededCorrections += ret;
+                    else if (ret < 0)
+                        numCorrectionFailures++;
                 }
-            });
-            fp1 = pointses.get(0).getAvPoint();
-            fp2 = pointses.get(1).getAvPoint();
-            fp3 = pointses.get(2).getAvPoint();
+                //obtain only data part
+                int p = 0;
+                for (int i = 0; i < numRSBlocks; i++) {
+                    for (int j = 0; j < lengthRSBlock - eccPerRSBlock; j++) {
+                        dataBlocks[p++] = RSBlocks[i][j];
+                    }
+                }
+            }
+            else { //symbol has 2 types of RS blocks
+                int lengthShorterRSBlock = dataCapacity / numRSBlocks;
+                int lengthLongerRSBlock = dataCapacity / numRSBlocks + 1;
+                int numShorterRSBlocks = numRSBlocks - numLongerRSBlocks;
+                int[][] shorterRSBlocks = new int[numShorterRSBlocks][lengthShorterRSBlock];
+                int[][] longerRSBlocks = new int[numLongerRSBlocks][lengthLongerRSBlock];
+                for (int i = 0; i < numRSBlocks; i++) {
+                    if (i < numShorterRSBlocks) { //get shorter RS Block(s)
+                        int mod = 0;
+                        for (int j = 0; j < lengthShorterRSBlock; j++) {
+                            if (j == lengthShorterRSBlock - eccPerRSBlock) mod = numLongerRSBlocks;
+                            shorterRSBlocks[i][j] = blocks[j * numRSBlocks + i + mod];
+                        }
+                        RsDecode corrector = new RsDecode(eccPerRSBlock / 2);
+                        int ret = corrector.decode(shorterRSBlocks[i]);
+                        if (ret > 0)
+                            numSucceededCorrections += ret;
+                        else if (ret < 0)
+                            numCorrectionFailures++;
 
-            fSide = 0;
-            fSide += pointses.get(0).getHeight();
-            fSide += pointses.get(1).getHeight();
-            fSide += pointses.get(2).getHeight();
-            fSide /= 3;
-
-            Utils.log("fp1 : %s, %s; fp2: %s, %s; fp3: %s, %s", fp1.c, fp1.r, fp2.c, fp2.r, fp3.c, fp3.r);
-            Utils.log("fSide %s", fSide);
+                    }
+                    else { 	//get longer RS Blocks
+                        int mod = 0;
+                        for (int j = 0; j < lengthLongerRSBlock; j++) {
+                            if (j == lengthShorterRSBlock - eccPerRSBlock) mod = numShorterRSBlocks;
+                            longerRSBlocks[i - numShorterRSBlocks][j] = blocks[j * numRSBlocks + i - mod];
+                        }
+                        RsDecode corrector = new RsDecode(eccPerRSBlock / 2);
+                        int ret = corrector.decode(longerRSBlocks[i - numShorterRSBlocks]);
+                        if (ret > 0)
+                            numSucceededCorrections += ret;
+                        else if (ret < 0)
+                            numCorrectionFailures++;
+                    }
+                }
+                int p = 0;
+                for (int i = 0; i < numRSBlocks; i++) {
+                    if (i < numShorterRSBlocks) {
+                        for (int j = 0; j < lengthShorterRSBlock - eccPerRSBlock; j++) {
+                            dataBlocks[p++] = shorterRSBlocks[i][j];
+                        }
+                    }
+                    else {
+                        for (int j = 0; j < lengthLongerRSBlock - eccPerRSBlock; j++) {
+                            dataBlocks[p++] = longerRSBlocks[i - numShorterRSBlocks][j];
+                        }
+                    }
+                }
+            }
+            return dataBlocks;
         }
     }
 
-    private class Points{
-
-        private List<Point> points;
-
-        public Points() {
-            this.points = new ArrayList<Point>();
+    private static byte[] getDecodedByteArray(int[] blocks, int version, int numErrorCorrectionCode){
+        byte[] byteArray;
+        QRCodeDataBlockReader reader = new QRCodeDataBlockReader(blocks, version, numErrorCorrectionCode);
+        try {
+            byteArray = reader.getDataByte();
+        } catch (InvalidDataBlockException e) {
+            throw e;
         }
-
-        public boolean isNear(Point point){
-            for(Point pointLocal : points){
-                if(Math.abs(pointLocal.c - point.c) < 2 &&
-                        Math.abs(pointLocal.r - point.r) < 2){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void addPoint(Point point){
-            this.points.add(point);
-        }
-
-        public int size(){
-            return points.size();
-        }
-
-        public Point getAvPoint(){
-            int c = 0, r = 0;
-            for(Point point : points){
-                c += point.c;
-                r += point.r;
-            }
-            c /= points.size();
-            r /= points.size();
-            return new Point(c, r);
-        }
-
-        public int getHeight(){
-            return Math.abs(points.get(points.size() - 1).r - points.get(0).r);
-        }
-
+        return byteArray;
     }
 
 }

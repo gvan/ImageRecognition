@@ -12,6 +12,11 @@ public interface Const {
     //bitmap
     boolean BACK = false;
     boolean FRONT = true;
+    //side
+    int TOP = 0;
+    int BOTTOM = 1;
+    int LEFT = 2;
+    int RIGHT = 3;
 
     String VALUE = "value";
     String MU_RR = "muRR";

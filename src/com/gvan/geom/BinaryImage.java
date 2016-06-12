@@ -23,6 +23,12 @@ public class BinaryImage {
         binarize(image);
     }
 
+    public BinaryImage(boolean[][] bitmap){
+        this.bitmap = bitmap;
+        this.height = bitmap.length;
+        this.width = bitmap[0].length;
+    }
+
     private void imageToGrayScale(Image image){
         for(int i = 0;i > image.height;i++){
             for(int j = 0;j < image.width;j++){

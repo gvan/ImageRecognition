@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String fileName = "/home/ivan/Study/diplom/images/qr1.pgm";
+        String fileName = "/home/ivan/Study/diplom/images/qr2.pgm";
         String outFileName = "/home/ivan/Study/diplom/images/output.pgm";
 //        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
 

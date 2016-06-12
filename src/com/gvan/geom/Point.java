@@ -5,26 +5,44 @@ package com.gvan.geom;
  */
 public class Point {
 
-    public int c;//its column
-    public int r;//its row
+    private int x;//its row, first parameter in point
+    private int y;//its column, second parameter in point
 
     public Point() {
-        this.c = 0;
-        this.r = 0;
+        this.x = 0;
+        this.y = 0;
     }
 
-    public Point(int c, int r) {
-        this.c = c;
-        this.r = r;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public void translate(int dc, int dr){
-        this.c += dc;
-        this.r += dr;
+    public void translate(int dx, int dy){
+        this.x += dx;
+        this.y += dy;
     }
 
-    public void set(int c, int r) {
-        this.c = c;
-        this.r = r;
+    public void set(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public boolean equeals(Point point){
+        return x == point.x && y == point.y;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%s, %s)", x, y);
+    }
+
 }
