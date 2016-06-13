@@ -10,18 +10,18 @@ import java.io.UnsupportedEncodingException;
  * Created by ivan on 6/12/16.
  */
 public class QRCodeDataBlockReader {
-    int[] blocks;
-    int dataLengthMode;
-    int blockPointer;
-    int bitPointer;
-    int dataLength;
-    int numErrorCorrectionCode;
-    static final int MODE_NUMBER = 1;
-    static final int MODE_ROMAN_AND_NUMBER = 2;
-    static final int MODE_8BIT_BYTE = 4;
-    static final int MODE_KANJI = 8;
+    private int[] blocks;
+    private int dataLengthMode;
+    private int blockPointer;
+    private int bitPointer;
+    private int dataLength;
+    private int numErrorCorrectionCode;
+    private static final int MODE_NUMBER = 1;
+    private static final int MODE_ROMAN_AND_NUMBER = 2;
+    private static final int MODE_8BIT_BYTE = 4;
+    private static final int MODE_KANJI = 8;
     // this constant come from p16, JIS-X-0510(2004)
-    final int[][] sizeOfDataLengthInfo = {
+    private final int[][] sizeOfDataLengthInfo = {
             {10, 9, 8, 8}, {12, 11, 16, 10}, {14, 13, 16, 12}
     };
 
@@ -37,6 +37,9 @@ public class QRCodeDataBlockReader {
     }
 
     int getNextBits(int numBits) throws ArrayIndexOutOfBoundsException {
+		System.out.println("numBits:" + String.valueOf(numBits));
+		System.out.println("blockPointer:" + String.valueOf(blockPointer));
+		System.out.println("bitPointer:" + String.valueOf(bitPointer));
         int bits = 0;
         if (numBits < bitPointer + 1) { // next word fits into current data block
             int mask = 0;
@@ -99,6 +102,7 @@ public class QRCodeDataBlockReader {
     }
 
     int getNextMode() throws ArrayIndexOutOfBoundsException {
+        //canvas.println("data blocks:"+ (blocks.length - numErrorCorrectionCode));
         if ((blockPointer > blocks.length - numErrorCorrectionCode -2))
             return 0;
         else
@@ -152,13 +156,14 @@ public class QRCodeDataBlockReader {
         return getNextBits(sizeOfDataLengthInfo[dataLengthMode][index]);
     }
 
-    public byte[] getDataByte() {
+    public byte[] getDataByte() throws InvalidDataBlockException {
+        Utils.log("getDataByte");
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         try {
             do {
                 int mode = getNextMode();
-                //canvas.println("mode: " + mode);
+                Utils.log(">>next mode %s", mode);
                 if (mode == 0) {
                     if (output.size() > 0)
                         break;
@@ -166,12 +171,12 @@ public class QRCodeDataBlockReader {
                         throw new InvalidDataBlockException("Empty data block");
                 }
 
-                Utils.log("mode %s", mode);
                 if (mode != MODE_NUMBER && mode != MODE_ROMAN_AND_NUMBER &&
                         mode != MODE_8BIT_BYTE && mode != MODE_KANJI) {
                     throw new InvalidDataBlockException("Invalid mode: " + mode + " in (block:"+blockPointer+" bit:"+bitPointer+")");
                 }
                 dataLength = getDataLength(mode);
+                Utils.log("data length %s", dataLength);
                 if (dataLength < 1)
                     throw new InvalidDataBlockException("Invalid data length: " + dataLength);
                 //canvas.println("length: " + dataLength);
@@ -210,16 +215,12 @@ public class QRCodeDataBlockReader {
         String dataString = "";
         do {
             int mode = getNextMode();
+            Utils.log("mode: " + mode);
             if (mode == 0)
                 break;
-            //if (mode != 1 && mode != 2 && mode != 4 && mode != 8)
-            //	break;
-            //}
             if (mode != MODE_NUMBER && mode != MODE_ROMAN_AND_NUMBER &&
                     mode != MODE_8BIT_BYTE && mode != MODE_KANJI) {
-                // mode = guessMode(mode);
-                //System.out.println("guessed mode: " + mode);
-
+                throw new InvalidDataBlockException("Invalid mode: " + mode + " in (block:"+blockPointer+" bit:"+bitPointer+")");
             }
 
             dataLength = getDataLength(mode);

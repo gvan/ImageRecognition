@@ -28,12 +28,16 @@ public class QrReader {
             SamplingGrid samplingGrid = SamplingGrid.getSamplingGrid(findPattern, alignmentPattern);
             boolean[][] qrCodeMatrix = getQrCodeMatrix(image.bitmap, samplingGrid);
             BinaryImage qrImage = new BinaryImage(qrCodeMatrix);
-            qrImage.saveFile(String.format("/home/ivan/Study/diplom/images/output%s.pgm", i));
-//            QrCodeSymbol qrCodeSymbol = new QrCodeSymbol(qrCodeMatrix);
-//            int[] blocks = qrCodeSymbol.getBlocks();
-//            blocks = correctDataBlocks(blocks, qrCodeSymbol);
-//            byte[] decodedByteArray = getDecodedByteArray(blocks, qrCodeSymbol.getVersion(), qrCodeSymbol.getNumErrorCollectionCode());
-//            Utils.log(decodedByteArray.toString());
+            qrImage.saveFile(String.format("/home/betinvest/Study/diplom/images/output%s.pgm", i));
+            QrCodeSymbol qrCodeSymbol = new QrCodeSymbol(qrCodeMatrix);
+            int[] blocks = qrCodeSymbol.getBlocks();
+            blocks = correctDataBlocks(blocks, qrCodeSymbol);
+            QRCodeDataBlockReader reader = new QRCodeDataBlockReader(blocks, qrCodeSymbol.getVersion(), qrCodeSymbol.getNumErrorCollectionCode());
+            try {
+                Utils.log(reader.getDataString());
+            } catch (InvalidDataBlockException e) {
+                throw e;
+            }
         }
     }
 
@@ -57,7 +61,7 @@ public class QrReader {
                         int f = (x1 * y2 - x2 * y1) * (x3 - x4) - (x3 * y4 - x4 * y3) * (x1 - x2);
                         int g = (x3 * y4 - x4 * y3) * (y2 - y1) - (x1 * y2 - x2 * y1) * (y4 - y3);
 //                        Utils.log("f/e=%s, g/e=%s", (f/e), (g/e));
-                        sampledMatrix[gridLines.getX(ax, x)][gridLines.getY(ay, y)] = image[f / e][g / e];
+                        sampledMatrix[gridLines.getX(ax, x)][gridLines.getY(ay, y)] = image[f/e][g/e];
                     }
                 }
             }
@@ -159,17 +163,6 @@ public class QrReader {
             }
             return dataBlocks;
         }
-    }
-
-    private static byte[] getDecodedByteArray(int[] blocks, int version, int numErrorCorrectionCode){
-        byte[] byteArray;
-        QRCodeDataBlockReader reader = new QRCodeDataBlockReader(blocks, version, numErrorCorrectionCode);
-        try {
-            byteArray = reader.getDataByte();
-        } catch (InvalidDataBlockException e) {
-            throw e;
-        }
-        return byteArray;
     }
 
 }

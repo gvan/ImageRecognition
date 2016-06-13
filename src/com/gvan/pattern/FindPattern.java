@@ -241,9 +241,9 @@ public class FindPattern {
                                 (d2 > d1 && d2 > d3 && isRightTriangle(d2, d1, d3)) ||
                                 (d1 > d2 && d1 > d3 && isRightTriangle(d1, d2, d3))){
                             threePointses.add(new ThreePoints(p1, p2, p3));
-                            points.remove(p1);
-                            points.remove(p2);
-                            points.remove(p3);
+                            removePoint(points, p1);
+                            removePoint(points, p2);
+                            removePoint(points, p3);
                             i = j = k = 0;
                         }
                     }
@@ -253,9 +253,18 @@ public class FindPattern {
         return threePointses;
     }
 
+    private static void removePoint(List<Point> points, Point point){
+        for(int i = points.size() - 1;i >= 0;i--){
+            if(points.get(i).getX() == point.getX() && points.get(i).getY() == point.getY()){
+                points.remove(i);
+            }
+        }
+
+    }
+
     private static boolean isRightTriangle(int dMax, int d1, int d2){
         long hypotenuse = Math.round(Math.sqrt(d1 * d1 + d2 * d2));
-        return dMax <= hypotenuse + 4 && dMax >= hypotenuse - 4;
+        return dMax <= hypotenuse + 2 && dMax >= hypotenuse - 2;
 //        return dMax == hypotenuse;
     }
 
@@ -341,9 +350,10 @@ public class FindPattern {
         int lengthAdditionalLine = (new Line(centers[Const.UL], centers[Const.UR]).getLength()) << QrReader.DECIMAL_POINT;
         int averageWidth = ((width[Const.UL] + width[Const.UR]) << QrReader.DECIMAL_POINT) / 14;
         int roughVersion = ((lengthAdditionalLine  / averageWidth) - 10) / 4;
-        if(((lengthAdditionalLine / averageWidth) - 10 % 4) >= 2){
-            roughVersion++;
-        }
+//        if(((lengthAdditionalLine / averageWidth) - 10 % 4) >= 2){
+//            roughVersion++;
+//        }
+        if(roughVersion == 0) roughVersion = 1;
         return roughVersion;
     }
 
