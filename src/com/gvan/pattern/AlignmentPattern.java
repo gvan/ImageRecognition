@@ -1,7 +1,7 @@
 package com.gvan.pattern;
 
 import com.gvan.Const;
-import com.gvan.Utils;
+import com.gvan.util.Utils;
 import com.gvan.geom.Axis;
 import com.gvan.geom.Point;
 

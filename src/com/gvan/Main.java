@@ -1,14 +1,23 @@
 package com.gvan;
 
+import javax.swing.*;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        String fileName = "/home/betinvest/Study/diplom/images/qr2.pgm";
-        String outFileName = "/home/ivan/Study/diplom/images/output.pgm";
-//        String fileName = "/home/betinvest/Study/diplom/images/test.pgm";
+        String fileName = "res/qr.pgm";
+        String outFileName = "res/output.pgm";
 
-        QrReader.read(fileName);
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(420,420);
+        frame.setVisible(true);
+        ImagePanel imagePanel = new ImagePanel();
+        frame.add(imagePanel);
+
+        QrReader.read(fileName, imagePanel);
+
     }
 
 }

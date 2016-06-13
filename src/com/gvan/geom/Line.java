@@ -1,6 +1,6 @@
 package com.gvan.geom;
 
-import com.gvan.Utils;
+import com.gvan.util.Utils;
 
 /**
  * Created by ivan on 6/9/16.

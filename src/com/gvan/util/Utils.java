@@ -1,4 +1,4 @@
-package com.gvan;
+package com.gvan.util;
 
 /**
  * Created by ivan on 4/13/16.

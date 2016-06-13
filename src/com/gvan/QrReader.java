@@ -6,6 +6,8 @@ import com.gvan.geom.Image;
 import com.gvan.pattern.AlignmentPattern;
 import com.gvan.pattern.FindPattern;
 import com.gvan.reedsolomon.RsDecode;
+import com.gvan.util.DebugCanvas;
+import com.gvan.util.Utils;
 
 import java.util.List;
 
@@ -16,30 +18,30 @@ public class QrReader {
 
     public static int DECIMAL_POINT = 21;
 
-    public static void read(String fileName){
+    public static void read(String fileName, DebugCanvas debugCanvas){
         Image colorImage = new Image(fileName);
         DECIMAL_POINT = 23 - Utils.sqrt(colorImage.getLongSide() / 256);
         Utils.log("DECIMAL POINT %s", DECIMAL_POINT);
         BinaryImage image = new BinaryImage(colorImage);
-        List<FindPattern> findPatterns = FindPattern.recogFindPattern(image);
+        List<FindPattern> findPatterns = FindPattern.recogFindPattern(image, debugCanvas);
         for(int i = 0;i < findPatterns.size();i++){
             FindPattern findPattern = findPatterns.get(i);
             AlignmentPattern alignmentPattern = AlignmentPattern.findAlignmentPattern(image.bitmap, findPattern);
             SamplingGrid samplingGrid = SamplingGrid.getSamplingGrid(findPattern, alignmentPattern);
             boolean[][] qrCodeMatrix = getQrCodeMatrix(image.bitmap, samplingGrid);
             BinaryImage qrImage = new BinaryImage(qrCodeMatrix);
-            qrImage.saveFile(String.format("/home/betinvest/Study/diplom/images/output%s.pgm", i));
-            QrCodeSymbol qrCodeSymbol = new QrCodeSymbol(qrCodeMatrix);
-            int[] blocks = qrCodeSymbol.getBlocks();
-            for(int j = 0;j < blocks.length;j++)
-                Utils.log("%s - %s", j, blocks[j]);
-            blocks = correctDataBlocks(blocks, qrCodeSymbol);
-            QRCodeDataBlockReader reader = new QRCodeDataBlockReader(blocks, qrCodeSymbol.getVersion(), qrCodeSymbol.getNumErrorCollectionCode());
-            try {
-                Utils.log(reader.getDataString());
-            } catch (InvalidDataBlockException e) {
-                throw e;
-            }
+            qrImage.saveFile(String.format("res/output%s.pgm", i));
+//            QrCodeSymbol qrCodeSymbol = new QrCodeSymbol(qrCodeMatrix);
+//            int[] blocks = qrCodeSymbol.getBlocks();
+//            for(int j = 0;j < blocks.length;j++)
+//                Utils.log("%s - %s", j, blocks[j]);
+//            blocks = correctDataBlocks(blocks, qrCodeSymbol);
+//            QRCodeDataBlockReader reader = new QRCodeDataBlockReader(blocks, qrCodeSymbol.getVersion(), qrCodeSymbol.getNumErrorCollectionCode());
+//            try {
+//                Utils.log(reader.getDataString());
+//            } catch (InvalidDataBlockException e) {
+//                throw e;
+//            }
         }
     }
 

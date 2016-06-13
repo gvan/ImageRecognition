@@ -1,6 +1,7 @@
 package com.gvan;
 
 import com.gvan.exception.InvalidDataBlockException;
+import com.gvan.util.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -2,7 +2,8 @@ package com.gvan.pattern;
 
 import com.gvan.Const;
 import com.gvan.QrReader;
-import com.gvan.Utils;
+import com.gvan.util.DebugCanvas;
+import com.gvan.util.Utils;
 import com.gvan.geom.BinaryImage;
 import com.gvan.geom.Line;
 import com.gvan.geom.Point;
@@ -50,10 +51,12 @@ public class FindPattern {
         return version;
     }
 
-    public static List<FindPattern> recogFindPattern(BinaryImage image){
+    public static List<FindPattern> recogFindPattern(BinaryImage image, DebugCanvas debugCanvas){
         List<Line> lineAcross = findLineAcross(image.bitmap);
         List<Line> lineCross = findLinesCross(lineAcross);
-        List<ThreePoints> threePointses = getFindPatternCenters(lineCross);
+        for(Line line : lineCross)
+            debugCanvas.drawLine(line);
+        List<ThreePoints> threePointses = getFindPatternCenters(lineCross, debugCanvas);
         List<FindPattern> findPatterns = new ArrayList<FindPattern>();
         for(ThreePoints threePoints : threePointses) {
             int[] sincos = getAngle(threePoints.getCenters());
@@ -180,7 +183,7 @@ public class FindPattern {
                 if(Line.isNeighbor(lineNeighbor.get(lineNeighbor.size() - 1), lineCandidate.get(j))){
                     lineNeighbor.add(lineCandidate.get(j));
                     compareLine = lineNeighbor.get(lineNeighbor.size() - 1);
-                    if(lineNeighbor.size() * 8 > compareLine.getLength() || (j == lineCandidate.size() - 1)){
+                    if(lineNeighbor.size() * 8 > compareLine.getLength()){
                         lineCross.add(lineNeighbor.get(lineNeighbor.size() / 2));
                         lineCandidate.removeAll(lineNeighbor);
                     }
@@ -207,7 +210,7 @@ public class FindPattern {
                 Math.abs(line1.getP1().getX() - line2.getP1().getX()) > 1;
     }
 
-    private static List<ThreePoints> getFindPatternCenters(List<Line> crossLines){
+    private static List<ThreePoints> getFindPatternCenters(List<Line> crossLines, DebugCanvas canvas){
         List<ThreePoints> threePointses = new ArrayList<ThreePoints>();
         List<Point> points = new ArrayList<Point>();
         for(int i = 0;i < crossLines.size() - 1;i++){
@@ -216,6 +219,7 @@ public class FindPattern {
                 Line comparedLine = crossLines.get(j);
                 if(Line.isCross(compareLine, comparedLine)){
                     int x, y;
+
                     if(compareLine.isHorizontal()){
                         x = compareLine.getCenter().getX();
                         y = comparedLine.getCenter().getY();
@@ -227,6 +231,8 @@ public class FindPattern {
                 }
             }
         }
+        for(Point point : points)
+            canvas.drawPoint(point);
         if(points.size() >= 3){
             for(int i = 0;i < points.size() - 1;i++){
                 for(int j = i + 1;j < points.size() - 1;j++){
@@ -255,7 +261,9 @@ public class FindPattern {
 
     private static void removePoint(List<Point> points, Point point){
         for(int i = points.size() - 1;i >= 0;i--){
-            if(points.get(i).getX() == point.getX() && points.get(i).getY() == point.getY()){
+            Point pointLocal = points.get(i);
+            if(pointLocal.getX() > point.getX() - 4 && pointLocal.getX() < point.getX() + 4 &&
+                    pointLocal.getY() > point.getY() - 4 && pointLocal.getY() < point.getY() + 4){
                 points.remove(i);
             }
         }
@@ -264,7 +272,7 @@ public class FindPattern {
 
     private static boolean isRightTriangle(int dMax, int d1, int d2){
         long hypotenuse = Math.round(Math.sqrt(d1 * d1 + d2 * d2));
-        return dMax <= hypotenuse + 2 && dMax >= hypotenuse - 2;
+        return dMax <= hypotenuse +1 && dMax >= hypotenuse - 1;
 //        return dMax == hypotenuse;
     }
 
@@ -348,11 +356,12 @@ public class FindPattern {
 
     private static int calcRoughVersion(Point[] centers, int[] width){
         int lengthAdditionalLine = (new Line(centers[Const.UL], centers[Const.UR]).getLength()) << QrReader.DECIMAL_POINT;
-        int averageWidth = ((width[Const.UL] + width[Const.UR]) << QrReader.DECIMAL_POINT) / 14;
+        int averageWidth = ((width[Const.UL] + width[Const.UR] + width[Const.DL]) << QrReader.DECIMAL_POINT) / 21;
+        Utils.log("length %s avWidth %s", lengthAdditionalLine, averageWidth);
         int roughVersion = ((lengthAdditionalLine  / averageWidth) - 10) / 4;
-//        if(((lengthAdditionalLine / averageWidth) - 10 % 4) >= 2){
-//            roughVersion++;
-//        }
+        if(((lengthAdditionalLine / averageWidth) - 10 % 4) >= 2){
+            roughVersion++;
+        }
         if(roughVersion == 0) roughVersion = 1;
         return roughVersion;
     }
