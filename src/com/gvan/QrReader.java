@@ -31,6 +31,8 @@ public class QrReader {
             qrImage.saveFile(String.format("/home/betinvest/Study/diplom/images/output%s.pgm", i));
             QrCodeSymbol qrCodeSymbol = new QrCodeSymbol(qrCodeMatrix);
             int[] blocks = qrCodeSymbol.getBlocks();
+            for(int j = 0;j < blocks.length;j++)
+                Utils.log("%s - %s", j, blocks[j]);
             blocks = correctDataBlocks(blocks, qrCodeSymbol);
             QRCodeDataBlockReader reader = new QRCodeDataBlockReader(blocks, qrCodeSymbol.getVersion(), qrCodeSymbol.getNumErrorCollectionCode());
             try {

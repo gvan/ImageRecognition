@@ -14,6 +14,7 @@ public class QRCodeDataBlockReader {
     private int dataLengthMode;
     private int blockPointer;
     private int bitPointer;
+
     private int dataLength;
     private int numErrorCorrectionCode;
     private static final int MODE_NUMBER = 1;
@@ -36,10 +37,10 @@ public class QRCodeDataBlockReader {
         else if (version >= 27 && version <= 40) dataLengthMode = 2;
     }
 
-    int getNextBits(int numBits) throws ArrayIndexOutOfBoundsException {
-		System.out.println("numBits:" + String.valueOf(numBits));
-		System.out.println("blockPointer:" + String.valueOf(blockPointer));
-		System.out.println("bitPointer:" + String.valueOf(bitPointer));
+    private int getNextBits(int numBits) throws ArrayIndexOutOfBoundsException {
+//		System.out.println("numBits:" + String.valueOf(numBits));
+//		System.out.println("blockPointer:" + String.valueOf(blockPointer));
+//		System.out.println("bitPointer:" + String.valueOf(bitPointer));
         int bits = 0;
         if (numBits < bitPointer + 1) { // next word fits into current data block
             int mask = 0;
@@ -107,42 +108,6 @@ public class QRCodeDataBlockReader {
             return 0;
         else
             return getNextBits(4);
-    }
-
-    int guessMode(int mode) {
-        //correct modes: 0001 0010 0100 1000
-        //possible data: 0000 0011 0101 1001 0110 1010 1100
-        //               0111 1101 1011 1110 1111
-//		MODE_NUMBER = 1;
-//		MODE_ROMAN_AND_NUMBER = 2;
-//		MODE_8BIT_BYTE = 4;
-//		MODE_KANJI = 8;
-        switch (mode) {
-            case 3:
-                return MODE_NUMBER;
-            case 5:
-                return MODE_8BIT_BYTE;
-            case 6:
-                return MODE_8BIT_BYTE;
-            case 7:
-                return MODE_8BIT_BYTE;
-            case 9:
-                return MODE_KANJI;
-            case 10:
-                return MODE_KANJI;
-            case 11:
-                return MODE_KANJI;
-            case 12:
-                return MODE_8BIT_BYTE;
-            case 13:
-                return MODE_8BIT_BYTE;
-            case 14:
-                return MODE_8BIT_BYTE;
-            case 15:
-                return MODE_8BIT_BYTE;
-            default:
-                return MODE_KANJI;
-        }
     }
 
     int getDataLength(int modeIndicator) throws ArrayIndexOutOfBoundsException {
