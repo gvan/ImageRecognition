@@ -63,7 +63,8 @@ public class FindPattern {
             Utils.log("width %s %s %s", width[0], width[1], width[2]);
             int version = calcRoughVersion(threePoints.getCenters(), width);
             Utils.log("version %s", version);
-            int[] moduleSize = {(width[Const.UL] << QrReader.DECIMAL_POINT) / 7,
+            int[] moduleSize = {
+                    (width[Const.UL] << QrReader.DECIMAL_POINT) / 7,
                     (width[Const.UR] << QrReader.DECIMAL_POINT) / 7,
                     (width[Const.DL] << QrReader.DECIMAL_POINT) / 7};
             findPatterns.add(new FindPattern(threePoints, sincos, width, moduleSize, version));

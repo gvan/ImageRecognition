@@ -2,33 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="15569138-06bb-4da4-a3e8-299d8d3d5902" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/AlignmentPattern.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/geom/Axis.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/BCH15_5.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/reedsolomon/Galois.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/exception/InvalidDataBlockException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/LogicalSeed.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/other/MyFindPattern.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/QRCodeDataBlockReader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/QrCodeSymbol.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/reedsolomon/RsDecode.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/SamplingGrid.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrReader$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrReader$Points.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/BinaryImage.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/BinaryImage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/Const.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/Const.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/FindPattern.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/FindPattern.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Line.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Line.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Point.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Point.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/AlignmentPattern.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/BCH15_5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/FindPattern.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/LogicalSeed.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrCodeSymbol.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrCodeSymbol.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrReader.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrReader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/BinaryImage.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/BinaryImage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/Const.java" afterPath="$PROJECT_DIR$/src/com/gvan/Const.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/FindPattern.java" afterPath="$PROJECT_DIR$/src/com/gvan/FindPattern.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/Line.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/Line.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/Main.java" afterPath="$PROJECT_DIR$/src/com/gvan/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/Point.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/Point.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/QrReader.java" afterPath="$PROJECT_DIR$/src/com/gvan/QrReader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/SamplingGrid$AreaGrid.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/SamplingGrid$AreaGrid.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/SamplingGrid$ModulePitch.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/SamplingGrid$ModulePitch.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/SamplingGrid.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/SamplingGrid.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/ThreePoints.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/ThreePoints.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/Axis.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/Axis.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java" afterPath="$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/SamplingGrid.java" afterPath="$PROJECT_DIR$/src/com/gvan/SamplingGrid.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ImageRecognition.iws" />
@@ -57,8 +44,8 @@
       <file leaf-file-name="QrReader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/gvan/QrReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="217" max-vertical-offset="3222">
-              <caret line="21" column="58" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="307" max-vertical-offset="3258">
+              <caret line="27" column="60" selection-start-line="27" selection-start-column="60" selection-end-line="27" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -67,39 +54,53 @@
         </entry>
       </file>
       <file leaf-file-name="FindPattern.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/gvan/FindPattern.java">
+        <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4777" max-vertical-offset="6174">
-              <caret line="301" column="16" selection-start-line="301" selection-start-column="16" selection-end-line="301" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="6246">
+              <caret line="69" column="21" selection-start-line="69" selection-start-column="21" selection-end-line="69" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1347#1360#0" expanded="true" />
-                <element signature="e#2369#2375#0" expanded="true" />
-                <element signature="e#5944#5950#0" expanded="true" />
-                <element signature="e#6001#6007#0" expanded="true" />
-                <element signature="e#6059#6065#0" expanded="true" />
-                <element signature="e#7919#7932#0" expanded="true" />
-                <element signature="e#7978#7985#0" expanded="true" />
+                <element signature="e#1427#1440#0" expanded="true" />
+                <element signature="e#2470#2476#0" expanded="true" />
+                <element signature="e#6045#6051#0" expanded="true" />
+                <element signature="e#6102#6108#0" expanded="true" />
+                <element signature="e#6160#6166#0" expanded="true" />
+                <element signature="e#8020#8033#0" expanded="true" />
+                <element signature="e#8079#8086#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Line.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Line.java">
+      <file leaf-file-name="AlignmentPattern.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/AlignmentPattern.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1872">
-              <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="127" max-vertical-offset="2484">
+              <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ThreePoints.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java">
+      <file leaf-file-name="SamplingGrid.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/gvan/SamplingGrid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45918366" vertical-offset="378" max-vertical-offset="3060">
-              <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.42517006" vertical-offset="4376" max-vertical-offset="5364">
+              <caret line="277" column="16" selection-start-line="277" selection-start-column="16" selection-end-line="277" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Axis.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Axis.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
+              <caret line="30" column="39" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -137,8 +138,6 @@
         <option value="$PROJECT_DIR$/src/com/gvan/Const.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/LogicalSeed.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/other/MyFindPattern.java" />
-        <option value="$PROJECT_DIR$/src/com/gvan/geom/Axis.java" />
-        <option value="$PROJECT_DIR$/src/com/gvan/SamplingGrid.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/geom/BinaryImage.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/geom/Point.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/FindPattern.java" />
@@ -152,9 +151,12 @@
         <option value="$PROJECT_DIR$/src/com/gvan/exception/InvalidDataBlockException.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/QRCodeDataBlockReader.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/gvan/QrReader.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/geom/Line.java" />
         <option value="$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java" />
+        <option value="$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java" />
+        <option value="$PROJECT_DIR$/src/com/gvan/QrReader.java" />
+        <option value="$PROJECT_DIR$/src/com/gvan/SamplingGrid.java" />
+        <option value="$PROJECT_DIR$/src/com/gvan/geom/Axis.java" />
       </list>
     </option>
   </component>
@@ -162,7 +164,7 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="339" />
+    <option name="y" value="27" />
     <option name="width" value="1366" />
     <option name="height" value="741" />
   </component>
@@ -474,8 +476,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="339" width="1366" height="741" extended-state="7" />
-    <editor active="true" />
+    <frame x="0" y="27" width="1366" height="741" extended-state="7" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32970452" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -487,7 +489,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930845" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.4935065" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1366" y="0" width="613" height="1078" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.4935065" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="0" y="27" width="613" height="741" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3409091" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21374622" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -553,7 +555,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -813,7 +815,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/LogicalSeed.java">
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/LogicalSeed.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.9897959" vertical-offset="0" max-vertical-offset="1458">
           <caret line="65" column="15" selection-start-line="65" selection-start-column="15" selection-end-line="65" selection-end-column="15" />
@@ -841,46 +843,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Axis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7346939" vertical-offset="0" max-vertical-offset="846">
-          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-          <folding>
-            <element signature="e#507#508#0" expanded="true" />
-            <element signature="e#553#554#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Point.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="164" max-vertical-offset="828">
-          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/AlignmentPattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6869565" vertical-offset="1873" max-vertical-offset="2448">
-          <caret line="130" column="57" selection-start-line="130" selection-start-column="57" selection-end-line="130" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/SamplingGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.7755102" vertical-offset="0" max-vertical-offset="5328">
-          <caret line="78" column="31" selection-start-line="78" selection-start-column="31" selection-end-line="78" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/BCH15_5.java">
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/reedsolomon/BCH15_5.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.0714285" vertical-offset="324" max-vertical-offset="4500">
           <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
@@ -926,26 +889,26 @@
         <state vertical-scroll-proportion="5.3265305" vertical-offset="0" max-vertical-offset="3276">
           <caret line="174" column="5" selection-start-line="174" selection-start-column="5" selection-end-line="174" selection-end-column="5" />
           <folding>
-            <element signature="e#361#362#0" expanded="true" />
-            <element signature="e#394#395#0" expanded="true" />
-            <element signature="e#436#437#0" expanded="true" />
-            <element signature="e#467#468#0" expanded="true" />
-            <element signature="e#926#927#0" expanded="true" />
-            <element signature="e#958#959#0" expanded="true" />
-            <element signature="e#1073#1074#0" expanded="true" />
-            <element signature="e#1105#1106#0" expanded="true" />
-            <element signature="e#1308#1309#0" expanded="true" />
-            <element signature="e#1353#1354#0" expanded="true" />
-            <element signature="e#1499#1500#0" expanded="true" />
-            <element signature="e#1575#1576#0" expanded="true" />
-            <element signature="e#1726#1727#0" expanded="true" />
-            <element signature="e#1784#1785#0" expanded="true" />
-            <element signature="e#1930#1931#0" expanded="true" />
-            <element signature="e#2002#2003#0" expanded="true" />
-            <element signature="e#2153#2154#0" expanded="true" />
-            <element signature="e#2217#2218#0" expanded="true" />
-            <element signature="e#2333#2334#0" expanded="true" />
-            <element signature="e#2379#2380#0" expanded="true" />
+            <element signature="e#361#362#0" expanded="false" />
+            <element signature="e#394#395#0" expanded="false" />
+            <element signature="e#436#437#0" expanded="false" />
+            <element signature="e#467#468#0" expanded="false" />
+            <element signature="e#926#927#0" expanded="false" />
+            <element signature="e#958#959#0" expanded="false" />
+            <element signature="e#1073#1074#0" expanded="false" />
+            <element signature="e#1105#1106#0" expanded="false" />
+            <element signature="e#1308#1309#0" expanded="false" />
+            <element signature="e#1353#1354#0" expanded="false" />
+            <element signature="e#1499#1500#0" expanded="false" />
+            <element signature="e#1575#1576#0" expanded="false" />
+            <element signature="e#1726#1727#0" expanded="false" />
+            <element signature="e#1784#1785#0" expanded="false" />
+            <element signature="e#1930#1931#0" expanded="false" />
+            <element signature="e#2002#2003#0" expanded="false" />
+            <element signature="e#2153#2154#0" expanded="false" />
+            <element signature="e#2217#2218#0" expanded="false" />
+            <element signature="e#2333#2334#0" expanded="false" />
+            <element signature="e#2379#2380#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -956,32 +919,32 @@
           <caret line="73" column="60" selection-start-line="73" selection-start-column="60" selection-end-line="73" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2272#2273#0" expanded="true" />
-            <element signature="e#2302#2303#0" expanded="true" />
-            <element signature="e#2348#2349#0" expanded="true" />
-            <element signature="e#2389#2390#0" expanded="true" />
-            <element signature="e#2433#2434#0" expanded="true" />
-            <element signature="e#2476#2477#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2545#2546#0" expanded="true" />
-            <element signature="e#2581#2582#0" expanded="true" />
-            <element signature="e#2616#2617#0" expanded="true" />
-            <element signature="e#2660#2661#0" expanded="true" />
-            <element signature="e#2695#2696#0" expanded="true" />
-            <element signature="e#2741#2742#0" expanded="true" />
-            <element signature="e#2821#2822#0" expanded="true" />
-            <element signature="e#2856#2857#0" expanded="true" />
-            <element signature="e#2925#2926#0" expanded="true" />
-            <element signature="e#6338#6339#0" expanded="true" />
-            <element signature="e#6394#6395#0" expanded="true" />
-            <element signature="e#8330#8331#0" expanded="true" />
-            <element signature="e#8364#8365#0" expanded="true" />
-            <element signature="e#8393#8394#0" expanded="true" />
-            <element signature="e#8421#8422#0" expanded="true" />
-            <element signature="e#8451#8452#0" expanded="true" />
-            <element signature="e#8480#8481#0" expanded="true" />
-            <element signature="e#9920#9921#0" expanded="true" />
-            <element signature="e#9959#9960#0" expanded="true" />
+            <element signature="e#2346#2347#0" expanded="true" />
+            <element signature="e#2376#2377#0" expanded="true" />
+            <element signature="e#2422#2423#0" expanded="true" />
+            <element signature="e#2463#2464#0" expanded="true" />
+            <element signature="e#2507#2508#0" expanded="true" />
+            <element signature="e#2550#2551#0" expanded="true" />
+            <element signature="e#2585#2586#0" expanded="true" />
+            <element signature="e#2619#2620#0" expanded="true" />
+            <element signature="e#2655#2656#0" expanded="true" />
+            <element signature="e#2690#2691#0" expanded="true" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2769#2770#0" expanded="true" />
+            <element signature="e#2815#2816#0" expanded="true" />
+            <element signature="e#2895#2896#0" expanded="true" />
+            <element signature="e#2930#2931#0" expanded="true" />
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#6412#6413#0" expanded="true" />
+            <element signature="e#6468#6469#0" expanded="true" />
+            <element signature="e#8404#8405#0" expanded="true" />
+            <element signature="e#8438#8439#0" expanded="true" />
+            <element signature="e#8467#8468#0" expanded="true" />
+            <element signature="e#8495#8496#0" expanded="true" />
+            <element signature="e#8525#8526#0" expanded="true" />
+            <element signature="e#8554#8555#0" expanded="true" />
+            <element signature="e#9994#9995#0" expanded="true" />
+            <element signature="e#10033#10034#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -994,45 +957,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/QrReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="217" max-vertical-offset="3222">
-          <caret line="21" column="58" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gvan/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21428572" vertical-offset="0" max-vertical-offset="588">
           <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/FindPattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4777" max-vertical-offset="6174">
-          <caret line="301" column="16" selection-start-line="301" selection-start-column="16" selection-end-line="301" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1347#1360#0" expanded="true" />
-            <element signature="e#2369#2375#0" expanded="true" />
-            <element signature="e#5944#5950#0" expanded="true" />
-            <element signature="e#6001#6007#0" expanded="true" />
-            <element signature="e#6059#6065#0" expanded="true" />
-            <element signature="e#7919#7932#0" expanded="true" />
-            <element signature="e#7978#7985#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Line.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="776" max-vertical-offset="1872">
-          <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -1045,11 +973,86 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Line.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.744898" vertical-offset="0" max-vertical-offset="1872">
+          <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45918366" vertical-offset="378" max-vertical-offset="3060">
-          <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.36394557" vertical-offset="164" max-vertical-offset="3078">
+          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#417#418#0" expanded="true" />
+            <element signature="e#450#451#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.21428572" vertical-offset="216" max-vertical-offset="828">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/AlignmentPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="73" max-vertical-offset="2484">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="631" max-vertical-offset="6246">
+          <caret line="69" column="21" selection-start-line="69" selection-start-column="21" selection-end-line="69" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1427#1440#0" expanded="true" />
+            <element signature="e#2470#2476#0" expanded="true" />
+            <element signature="e#6045#6051#0" expanded="true" />
+            <element signature="e#6102#6108#0" expanded="true" />
+            <element signature="e#6160#6166#0" expanded="true" />
+            <element signature="e#8020#8033#0" expanded="true" />
+            <element signature="e#8079#8086#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/QrReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="307" max-vertical-offset="3258">
+          <caret line="27" column="60" selection-start-line="27" selection-start-column="60" selection-end-line="27" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/geom/Axis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
+          <caret line="30" column="39" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/SamplingGrid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42517006" vertical-offset="4376" max-vertical-offset="5364">
+          <caret line="277" column="16" selection-start-line="277" selection-start-column="16" selection-end-line="277" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

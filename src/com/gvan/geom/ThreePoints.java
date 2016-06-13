@@ -1,6 +1,7 @@
 package com.gvan.geom;
 
 import com.gvan.Const;
+import com.gvan.Utils;
 
 /**
  * Created by ivan on 6/11/16.
@@ -26,9 +27,7 @@ public class ThreePoints{
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Point point : centers){
-            stringBuilder.append(String.format("(%s, %s) ", point.getX(), point.getY()));
-        }
+        Utils.log("ul %s, ur %s, dl %s", centers[0].toString(), centers[1].toString(), centers[2].toString());
         return stringBuilder.toString();
     }
 
@@ -38,23 +37,23 @@ public class ThreePoints{
         
         switch (getQuadrant(angle)){
             case 1:{
-                sortedCenters[1] = getPointAtSide(centers, Const.RIGHT, Const.BOTTOM);
-                sortedCenters[2] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
+                sortedCenters[2] = getPointAtSide(centers, Const.RIGHT, Const.BOTTOM);
+                sortedCenters[1] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
                 break;
             }
             case 2:{
-                sortedCenters[1] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
-                sortedCenters[2] = getPointAtSide(centers, Const.TOP, Const.LEFT);
+                sortedCenters[2] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
+                sortedCenters[1] = getPointAtSide(centers, Const.TOP, Const.LEFT);
                 break;
             }
             case 3:{
-                sortedCenters[1] = getPointAtSide(centers, Const.LEFT, Const.TOP);
-                sortedCenters[2] = getPointAtSide(centers, Const.RIGHT, Const.TOP);
+                sortedCenters[2] = getPointAtSide(centers, Const.LEFT, Const.TOP);
+                sortedCenters[1] = getPointAtSide(centers, Const.RIGHT, Const.TOP);
                 break;
             }
             case 4:{
-                sortedCenters[1] = getPointAtSide(centers, Const.TOP, Const.RIGHT);
-                sortedCenters[2] = getPointAtSide(centers, Const.BOTTOM, Const.RIGHT);
+                sortedCenters[2] = getPointAtSide(centers, Const.TOP, Const.RIGHT);
+                sortedCenters[1] = getPointAtSide(centers, Const.BOTTOM, Const.RIGHT);
                 break;
             }
         }

@@ -26,16 +26,16 @@ public class Axis {
         this.modulePitch = modulePitch;
     }
 
-    public Point translate(Point origin, int moveC, int moveR){
+    public Point translate(Point origin, int moveX, int moveY){
         setOrigin(origin);
-        return translate(moveC, moveR);
+        return translate(moveX, moveY);
     }
 
-    public Point translate(int moveC, int moveR){
+    public Point translate(int moveX, int moveY){
         Point point = new Point();
-        int dc = moveC == 0 ? 0 : (modulePitch * moveC) >> QrReader.DECIMAL_POINT;
-        int dr = moveR == 0 ? 0 : (modulePitch * moveR) >> QrReader.DECIMAL_POINT;
-        point.translate((dc*cos - dr*sin) >> QrReader.DECIMAL_POINT, (dc*sin + dr*cos) >> QrReader.DECIMAL_POINT);
+        int dx = moveX == 0 ? 0 : (modulePitch * moveX) >> QrReader.DECIMAL_POINT;
+        int dy = moveY == 0 ? 0 : (modulePitch * moveY) >> QrReader.DECIMAL_POINT;
+        point.translate((dx*cos - dy*sin) >> QrReader.DECIMAL_POINT, (dx*sin + dy*cos) >> QrReader.DECIMAL_POINT);
         point.translate(origin.getX(), origin.getY());
         return point;
     }

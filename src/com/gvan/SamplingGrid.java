@@ -89,7 +89,7 @@ public class SamplingGrid {
         
         int sqrtNumArea = sqrtCenters - 1;
         SamplingGrid samplingGrid = new SamplingGrid(sqrtNumArea);
-        Line baseLineC, baseLineR, gridLineC, gridLineR;
+        Line baseLineX, baseLineY, gridLineX, gridLineY;
         
         Axis axis = new Axis(findPattern.getSincos(), findPattern.getModuleSize());
         ModulePitch modulePitch;
@@ -97,8 +97,8 @@ public class SamplingGrid {
         for (int ay = 0; ay < sqrtNumArea; ay++) {
             for (int ax = 0; ax < sqrtNumArea; ax++) {
                 modulePitch = new ModulePitch();  /// Housing to order
-                baseLineC = new Line();
-                baseLineR = new Line();
+                baseLineX = new Line();
+                baseLineY = new Line();
                 axis.setModulePitch(findPattern.getModuleSize());
 
                 Point logicalCenters[][]= AlignmentPattern.getLogicalCenter(findPattern.getVersion());
@@ -231,40 +231,40 @@ public class SamplingGrid {
                 modulePitch.bottom = getAreaModulePitch(lowerLeftPoint, lowerRightPoint, logicalWidth-1);
                 modulePitch.right = getAreaModulePitch(upperRightPoint, lowerRightPoint, logicalHeight-1);
 
-                baseLineC.setP1(upperLeftPoint);
-                baseLineR.setP1(upperLeftPoint);
-                baseLineC.setP2(lowerLeftPoint);
-                baseLineR.setP2(upperRightPoint);
+                baseLineX.setP1(upperLeftPoint);
+                baseLineY.setP1(upperLeftPoint);
+                baseLineX.setP2(lowerLeftPoint);
+                baseLineY.setP2(upperRightPoint);
 
                 samplingGrid.initGrid(ax,ay,logicalWidth,logicalHeight);
 
                 for (int i = 0; i < logicalWidth; i++) {
-                    gridLineC = new Line(baseLineC.getP1(), baseLineC.getP2());
+                    gridLineX = new Line(baseLineX.getP1(), baseLineX.getP2());
 
-                    axis.setOrigin(gridLineC.getP1());
+                    axis.setOrigin(gridLineX.getP1());
                     axis.setModulePitch(modulePitch.top);
-                    gridLineC.setP1(axis.translate(i,0));
+                    gridLineX.setP1(axis.translate(i, 0));
 
-                    axis.setOrigin(gridLineC.getP2());
+                    axis.setOrigin(gridLineX.getP2());
                     axis.setModulePitch(modulePitch.bottom);
-                    gridLineC.setP2(axis.translate(i,0));
+                    gridLineX.setP2(axis.translate(i, 0));
 
-                    samplingGrid.setXLine(ax,ay,i,gridLineC);
+                    samplingGrid.setXLine(ax,ay,i,gridLineX);
                 }
 
                 for (int i = 0; i < logicalHeight; i++) {
 
-                    gridLineR = new Line(baseLineR.getP1(), baseLineR.getP2());
+                    gridLineY = new Line(baseLineY.getP1(), baseLineY.getP2());
 
-                    axis.setOrigin(gridLineR.getP1());
+                    axis.setOrigin(gridLineY.getP1());
                     axis.setModulePitch(modulePitch.left);
-                    gridLineR.setP1(axis.translate(0,i));
+                    gridLineY.setP1(axis.translate(0, i));
 
-                    axis.setOrigin(gridLineR.getP2());
+                    axis.setOrigin(gridLineY.getP2());
                     axis.setModulePitch(modulePitch.right);
-                    gridLineR.setP2(axis.translate(0,i));
+                    gridLineY.setP2(axis.translate(0, i));
 
-                    samplingGrid.setYLine(ax,ay,i,gridLineR);
+                    samplingGrid.setYLine(ax,ay,i,gridLineY);
 
                 }
             }
