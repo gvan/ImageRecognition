@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String fileName = "res/qr.pgm";
+        String fileName = "res/qr1.pgm";
         String outFileName = "res/output.pgm";
 
         JFrame frame = new JFrame();

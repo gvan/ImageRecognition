@@ -56,12 +56,15 @@ public class FindPattern {
         List<Line> lineCross = findLinesCross(lineAcross);
         for(Line line : lineCross)
             debugCanvas.drawLine(line);
-        List<ThreePoints> threePointses = getFindPatternCenters(lineCross, debugCanvas);
+        List<ThreePoints> threePointses = getFindPatternCenters(lineCross);
         List<FindPattern> findPatterns = new ArrayList<FindPattern>();
         for(ThreePoints threePoints : threePointses) {
+            debugCanvas.drawPoint(threePoints.getCenter(0));
+            debugCanvas.drawPoint(threePoints.getCenter(1));
+            debugCanvas.drawPoint(threePoints.getCenter(2));
+            Utils.log("threePoints %s", threePoints.toString());
             int[] sincos = getAngle(threePoints.getCenters());
             threePoints.sort(sincos);
-            Utils.log("threePoints %s", threePoints.toString());
             int[] width = getWidth(image.bitmap, threePoints.getCenters());
             Utils.log("width %s %s %s", width[0], width[1], width[2]);
             int version = calcRoughVersion(threePoints.getCenters(), width);
@@ -212,7 +215,7 @@ public class FindPattern {
                 Math.abs(line1.getP1().getX() - line2.getP1().getX()) > 1;
     }
 
-    private static List<ThreePoints> getFindPatternCenters(List<Line> crossLines, DebugCanvas canvas){
+    private static List<ThreePoints> getFindPatternCenters(List<Line> crossLines){
         List<ThreePoints> threePointses = new ArrayList<ThreePoints>();
         List<Point> points = new ArrayList<Point>();
         for(int i = 0;i < crossLines.size() - 1;i++){
@@ -243,6 +246,7 @@ public class FindPattern {
                         int d1 = new Line(p1, p2).getLength();
                         int d2 = new Line(p1, p3).getLength();
                         int d3 = new Line(p2, p3).getLength();
+                        if(d1 < 10 || d2 < 10 || d3 < 10) continue;
                         if((d3 > d1 && d3 > d2 && isRightTriangle(d3, d1, d2)) ||
                                 (d2 > d1 && d2 > d3 && isRightTriangle(d2, d1, d3)) ||
                                 (d1 > d2 && d1 > d3 && isRightTriangle(d1, d2, d3))){
@@ -319,12 +323,18 @@ public class FindPattern {
                 remotePoint = remoteLine.getP2();
         }
 
+        Utils.log("remote point %s %s", remotePoint.getX(), remotePoint.getY());
+        Utils.log("origin point %s %s", originPoint.getX(), originPoint.getY());
         int dist = new Line(originPoint, remotePoint).getLength();
+        int dy = remotePoint.getY() - originPoint.getY();
+        int dx = remotePoint.getX() - originPoint.getX();
         int[] angle = new int[2];
         //sin
-        angle[0] = ((remotePoint.getY() - originPoint.getY()) << QrReader.DECIMAL_POINT) / dist;
+        angle[0] = (dy << QrReader.DECIMAL_POINT) / dist;
         //cos
-        angle[1] = ((remotePoint.getX() - originPoint.getX()) << QrReader.DECIMAL_POINT) / dist;
+        angle[1] = (dx << QrReader.DECIMAL_POINT) / dist;
+
+        Utils.log("sin %s cos %s", ((double)dy / dist), ((double)dx / dist));
 
         return angle;
     }

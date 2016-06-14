@@ -23,7 +23,7 @@ public class ImagePanel extends JPanel implements DebugCanvas{
 
     public ImagePanel() {
         try {
-            image = ImageIO.read(new File("res/qrcode.jpeg"));
+            image = ImageIO.read(new File("res/qrcode1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,13 +38,13 @@ public class ImagePanel extends JPanel implements DebugCanvas{
 
         g2d.drawImage(image, 0, 0, null);
 
-        g2d.setColor(new Color(255, 0, 0, 127));
+        g2d.setColor(new Color(255, 0, 0, 255));
         g2d.setStroke(new BasicStroke(1));
         for(Line line : lines) {
-            g2d.drawLine(line.getP1().getX(), line.getP1().getY(), line.getP2().getX(), line.getP2().getY());
+            g2d.drawLine(line.getP1().getY(), line.getP1().getX(), line.getP2().getY(), line.getP2().getX());
         }
         for(Point point : points){
-            g2d.fillOval(point.getX() - 4, point.getY() - 4, 8, 8);
+            g2d.fillOval(point.getY() - 4, point.getX() - 4, 8, 8);
         }
     }
 
