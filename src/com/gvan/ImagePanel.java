@@ -38,7 +38,7 @@ public class ImagePanel extends JPanel implements DebugCanvas{
 
         g2d.drawImage(image, 0, 0, null);
 
-        g2d.setColor(Color.RED);
+        g2d.setColor(new Color(255, 0, 0, 127));
         g2d.setStroke(new BasicStroke(1));
         for(Line line : lines) {
             g2d.drawLine(line.getP1().getX(), line.getP1().getY(), line.getP2().getX(), line.getP2().getY());

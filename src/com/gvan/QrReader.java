@@ -1,6 +1,5 @@
 package com.gvan;
 
-import com.gvan.exception.InvalidDataBlockException;
 import com.gvan.geom.BinaryImage;
 import com.gvan.geom.Image;
 import com.gvan.pattern.AlignmentPattern;

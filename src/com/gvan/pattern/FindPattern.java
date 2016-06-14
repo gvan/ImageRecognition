@@ -146,6 +146,8 @@ public class FindPattern {
     }
 
     private static boolean checkPattern(int[] buffer, int pointer){
+        if(buffer[0] == 0 || buffer[1] == 0 || buffer[2] == 0 || buffer[3] == 0  || buffer[4] == 0)
+            return false;
         final int[] modelRatio = {1, 1, 3, 1, 1};
 
         int baseLength = 0;
@@ -157,8 +159,8 @@ public class FindPattern {
         baseLength <<= QrReader.DECIMAL_POINT;
         baseLength /= 7;
         for(int i = 0;i < modelRatio.length;i++){
-            int leastLength = baseLength*modelRatio[i] - baseLength/2;
-            int mostLength = baseLength*modelRatio[i] + baseLength/2;
+            int leastLength = baseLength*modelRatio[i] - baseLength/4;
+            int mostLength = baseLength*modelRatio[i] + baseLength/4;
 
             int targetLength = buffer[(pointer + i + 1) % 5] << QrReader.DECIMAL_POINT;
             if(targetLength < leastLength || targetLength > mostLength) {
@@ -231,8 +233,6 @@ public class FindPattern {
                 }
             }
         }
-        for(Point point : points)
-            canvas.drawPoint(point);
         if(points.size() >= 3){
             for(int i = 0;i < points.size() - 1;i++){
                 for(int j = i + 1;j < points.size() - 1;j++){
