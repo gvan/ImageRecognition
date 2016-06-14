@@ -1,7 +1,6 @@
 package com.gvan.geom;
 
 import com.gvan.Const;
-import com.gvan.Utils;
 
 /**
  * Created by ivan on 6/11/16.
@@ -32,26 +31,28 @@ public class ThreePoints{
     //sort to ul, ur, dl
     public void sort(int[] angle){
         Point[] sortedCenters = new Point[3];
-        
+
+        int n1 = 1;
+        int n2 = 2;
         switch (getQuadrant(angle)){
             case 1:{
-                sortedCenters[1] = getPointAtSide(centers, Const.RIGHT, Const.BOTTOM);
-                sortedCenters[2] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
+                sortedCenters[n1] = getPointAtSide(centers, Const.RIGHT, Const.BOTTOM);
+                sortedCenters[n2] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
                 break;
             }
             case 2:{
-                sortedCenters[1] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
-                sortedCenters[2] = getPointAtSide(centers, Const.TOP, Const.LEFT);
+                sortedCenters[n1] = getPointAtSide(centers, Const.BOTTOM, Const.LEFT);
+                sortedCenters[n2] = getPointAtSide(centers, Const.TOP, Const.LEFT);
                 break;
             }
             case 3:{
-                sortedCenters[1] = getPointAtSide(centers, Const.LEFT, Const.TOP);
-                sortedCenters[2] = getPointAtSide(centers, Const.RIGHT, Const.TOP);
+                sortedCenters[n1] = getPointAtSide(centers, Const.LEFT, Const.TOP);
+                sortedCenters[n2] = getPointAtSide(centers, Const.RIGHT, Const.TOP);
                 break;
             }
             case 4:{
-                sortedCenters[1] = getPointAtSide(centers, Const.TOP, Const.RIGHT);
-                sortedCenters[2] = getPointAtSide(centers, Const.BOTTOM, Const.RIGHT);
+                sortedCenters[n1] = getPointAtSide(centers, Const.TOP, Const.RIGHT);
+                sortedCenters[n2] = getPointAtSide(centers, Const.BOTTOM, Const.RIGHT);
                 break;
             }
         }

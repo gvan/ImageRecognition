@@ -1,6 +1,6 @@
 package com.gvan.other;
 
-import com.gvan.Utils;
+import com.gvan.util.Utils;
 import com.gvan.geom.Image;
 
 /**
