@@ -2,40 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="15569138-06bb-4da4-a3e8-299d8d3d5902" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/util/DebugCanvas.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/gvan/ImagePanel.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/Utils.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/gvan/Utils.java" afterPath="$PROJECT_DIR$/src/com/gvan/util/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/AffineTransformation.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/AffineTransformation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/pattern/AlignmentPattern.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/pattern/AlignmentPattern.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Axis.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Axis.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/BinaryImage.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/BinaryImage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/pattern/FindPattern.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/pattern/FindPattern.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Line.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/Line.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/Main.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/Morphology.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/Morphology.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MorphologyCircle$SecondOrderMoment.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MorphologyCircle$SecondOrderMoment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MorphologyCircle.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MorphologyCircle.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MyFindPattern$1.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MyFindPattern$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MyFindPattern$Points.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MyFindPattern$Points.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MyFindPattern.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/MyFindPattern.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/ObjectCounter.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/other/ObjectCounter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QRCodeDataBlockReader.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QRCodeDataBlockReader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrReader.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/QrReader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/ThreePoints.class" afterPath="$PROJECT_DIR$/out/production/ImageRecognition/com/gvan/geom/ThreePoints.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/other/AffineTransformation.java" afterPath="$PROJECT_DIR$/src/com/gvan/other/AffineTransformation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/pattern/AlignmentPattern.java" afterPath="$PROJECT_DIR$/src/com/gvan/pattern/AlignmentPattern.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/BinaryImage.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/BinaryImage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java" afterPath="$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/Line.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/Line.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/Main.java" afterPath="$PROJECT_DIR$/src/com/gvan/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/other/Morphology.java" afterPath="$PROJECT_DIR$/src/com/gvan/other/Morphology.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/other/MorphologyCircle.java" afterPath="$PROJECT_DIR$/src/com/gvan/other/MorphologyCircle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/other/MyFindPattern.java" afterPath="$PROJECT_DIR$/src/com/gvan/other/MyFindPattern.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/other/ObjectCounter.java" afterPath="$PROJECT_DIR$/src/com/gvan/other/ObjectCounter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/QRCodeDataBlockReader.java" afterPath="$PROJECT_DIR$/src/com/gvan/QRCodeDataBlockReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/QrReader.java" afterPath="$PROJECT_DIR$/src/com/gvan/QrReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java" afterPath="$PROJECT_DIR$/src/com/gvan/geom/ThreePoints.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ImageRecognition.iws" />
@@ -71,10 +37,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImagePanel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ImagePanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/gvan/ImagePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46179402" vertical-offset="550" max-vertical-offset="1224">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1224">
               <caret line="46" column="59" selection-start-line="46" selection-start-column="59" selection-end-line="46" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -109,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FindPattern.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FindPattern.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="500" max-vertical-offset="6588">
-              <caret line="58" column="86" selection-start-line="58" selection-start-column="86" selection-end-line="58" selection-end-column="86" />
+            <state vertical-scroll-proportion="0.32" vertical-offset="608" max-vertical-offset="6588">
+              <caret line="54" column="36" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1579#1592#0" expanded="true" />
@@ -188,9 +154,9 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="321" />
+    <option name="y" value="27" />
     <option name="width" value="1366" />
-    <option name="height" value="768" />
+    <option name="height" value="741" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -527,7 +493,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="321" width="1366" height="768" extended-state="6" />
+    <frame x="0" y="27" width="1366" height="741" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32970452" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -540,7 +506,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930845" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.4935065" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1366" y="27" width="600" height="1049" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.4935065" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1366" y="27" width="600" height="1049" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659408" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21374622" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1062,29 +1028,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/QrReader.java">
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/ImagePanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="250" max-vertical-offset="3204">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1224">
+          <caret line="46" column="59" selection-start-line="46" selection-start-column="59" selection-end-line="46" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="500" max-vertical-offset="6588">
-          <caret line="58" column="86" selection-start-line="58" selection-start-column="86" selection-end-line="58" selection-end-column="86" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1579#1592#0" expanded="true" />
-            <element signature="e#2622#2628#0" expanded="true" />
-            <element signature="e#6197#6203#0" expanded="true" />
-            <element signature="e#6254#6260#0" expanded="true" />
-            <element signature="e#6312#6318#0" expanded="true" />
-            <element signature="e#8157#8170#0" expanded="true" />
-            <element signature="e#8216#8223#0" expanded="true" />
+            <element signature="e#461#467#0" expanded="true" />
+            <element signature="e#514#521#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1099,14 +1050,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvan/ImagePanel.java">
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/QrReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46179402" vertical-offset="550" max-vertical-offset="1224">
-          <caret line="46" column="59" selection-start-line="46" selection-start-column="59" selection-end-line="46" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="250" max-vertical-offset="3204">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#461#467#0" expanded="true" />
-            <element signature="e#514#521#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvan/pattern/FindPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32" vertical-offset="608" max-vertical-offset="6588">
+          <caret line="54" column="36" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1579#1592#0" expanded="true" />
+            <element signature="e#2622#2628#0" expanded="true" />
+            <element signature="e#6197#6203#0" expanded="true" />
+            <element signature="e#6254#6260#0" expanded="true" />
+            <element signature="e#6312#6318#0" expanded="true" />
+            <element signature="e#8157#8170#0" expanded="true" />
+            <element signature="e#8216#8223#0" expanded="true" />
           </folding>
         </state>
       </provider>
