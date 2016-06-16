@@ -22,11 +22,13 @@ public class QrReader {
         DECIMAL_POINT = 23 - Utils.sqrt(colorImage.getLongSide() / 256);
         Utils.log("DECIMAL POINT %s", DECIMAL_POINT);
         BinaryImage image = new BinaryImage(colorImage);
+        image.saveFile();
         List<FindPattern> findPatterns = FindPattern.recogFindPattern(image, debugCanvas);
         for(int i = 0;i < findPatterns.size();i++){
             FindPattern findPattern = findPatterns.get(i);
             AlignmentPattern alignmentPattern = AlignmentPattern.findAlignmentPattern(image.bitmap, findPattern);
-            SamplingGrid samplingGrid = SamplingGrid.getSamplingGrid(findPattern, alignmentPattern);
+            SamplingGrid samplingGrid = SamplingGrid.getSamplingGrid(findPattern, alignmentPattern, debugCanvas);
+            Utils.log("sampling grid %s", samplingGrid.toString());
             boolean[][] qrCodeMatrix = getQrCodeMatrix(image.bitmap, samplingGrid);
             BinaryImage qrImage = new BinaryImage(qrCodeMatrix);
             qrImage.saveFile(String.format("res/output%s.pgm", i));
@@ -64,7 +66,57 @@ public class QrReader {
                         int f = (x1 * y2 - x2 * y1) * (x3 - x4) - (x3 * y4 - x4 * y3) * (x1 - x2);
                         int g = (x3 * y4 - x4 * y3) * (y2 - y1) - (x1 * y2 - x2 * y1) * (y4 - y3);
 //                        Utils.log("f/e=%s, g/e=%s", (f/e), (g/e));
-                        sampledMatrix[gridLines.getX(ax, x)][gridLines.getY(ay, y)] = image[f/e][g/e];
+
+                        int centerX = f / e;
+                        int centerY = g / e;
+                        sampledMatrix[gridLines.getX(ax,x)][gridLines.getY(ay, y)] = image[centerX][centerY];
+
+//                        if(image[centerX][centerY] == Const.BLACK){
+//                            sampledMatrix[gridLines.getX(ax,x)][gridLines.getY(ay, y)] = Const.BLACK;
+//                        } else {
+//                            int tW = 0, tB = 0, lW = 0, lB = 0, bW = 0, bB = 0, rW = 0, rB = 0;
+//                            int width = gridLines.getModulePitchWidth(ax, ay) / 2;
+//                            int height = gridLines.getModulePitchHeight(ax, ay) / 2;
+//
+//                            for(int i = -width+1;i < width;i++) {
+//                                for (int j = -height+1; j < height; j++) {
+//                                    if(j > 0){
+//                                        if(image[centerX + i][centerY + j] == Const.WHITE)
+//                                            tW++;
+//                                        else
+//                                            tB++;
+//                                    }
+//                                    if(i < 0){
+//                                        if(image[centerX + i][centerY + j] == Const.WHITE)
+//                                            lW++;
+//                                        else
+//                                            lB++;
+//                                    }
+//                                    if(j < 0){
+//                                        if(image[centerX + i][centerY + j] == Const.WHITE)
+//                                            bW++;
+//                                        else
+//                                            bB++;
+//                                    }
+//                                    if(i > 0){
+//                                        if(image[centerX + i][centerY + j] == Const.WHITE)
+//                                            rW++;
+//                                        else
+//                                            rB++;
+//                                    }
+//                                }
+//                            }
+//
+////                            float k = 1.25f;
+////                            tB *= k; lB *= k; bB *= k; rB *= k;
+//                            if((tB >= tW && lB < lW && bB < bW && rB < rW) ||
+//                                    (lB >= lW && tB < tW && bB < bW && rB < rW) ||
+//                                    (bB >= bW && tB < tW && lB < lW && rB < rW ||
+//                                    (rB >= rW && tB < tW && lB < lW && bB < bW)))
+//                                sampledMatrix[gridLines.getX(ax, x)][gridLines.getY(ay, y)] = Const.BLACK;
+//                            else
+//                                sampledMatrix[gridLines.getX(ax, x)][gridLines.getY(ay, y)] = Const.WHITE;
+//                        }
                     }
                 }
             }

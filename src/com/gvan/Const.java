@@ -10,8 +10,8 @@ public interface Const {
     int UR = 1;
     int DL = 2;
     //bitmap
-    boolean BACK = false;
-    boolean FRONT = true;
+    boolean BLACK = false;
+    boolean WHITE = true;
     //side
     int TOP = 0;
     int BOTTOM = 1;

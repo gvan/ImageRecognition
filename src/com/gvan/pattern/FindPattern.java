@@ -2,12 +2,13 @@ package com.gvan.pattern;
 
 import com.gvan.Const;
 import com.gvan.QrReader;
+import com.gvan.exception.InvalidVersionException;
+import com.gvan.exception.InvalidVersionInfoException;
+import com.gvan.exception.VersionInformationException;
+import com.gvan.geom.*;
+import com.gvan.geom.Point;
 import com.gvan.util.DebugCanvas;
 import com.gvan.util.Utils;
-import com.gvan.geom.BinaryImage;
-import com.gvan.geom.Line;
-import com.gvan.geom.Point;
-import com.gvan.geom.ThreePoints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,15 @@ public class FindPattern {
     private int[] width;
     private int[] moduleSize;
     private int version;
+
+    // this constant used for VersionInformation's error correction (BCC
+    static final int[] VersionInfoBit = {
+            0x07C94,0x085BC,0x09A99,0x0A4D3,0x0BBF6,0x0C762,0x0D847,
+            0x0E60D,0x0F928,0x10B78,0x1145D,0x12A17,0x13532,0x149A6,
+            0x15683,0x168C9,0x177EC,0x18EC4,0x191E1,0x1AFAB,0x1B08E,
+            0x1CC1A,0x1D33F,0x1ED75,0x1F250,0x209D5,0x216F0,0x228BA,
+            0x2379F,0x24B0B,0x2542E,0x26A64,0x27541,0x28C69
+    };
 
     public FindPattern(ThreePoints threePoints, int[] sincos, int[] width, int[] moduleSize, int version) {
         this.threePoints = threePoints;
@@ -54,8 +64,6 @@ public class FindPattern {
     public static List<FindPattern> recogFindPattern(BinaryImage image, DebugCanvas debugCanvas){
         List<Line> lineAcross = findLineAcross(image.bitmap);
         List<Line> lineCross = findLinesCross(lineAcross);
-        for(Line line : lineCross)
-            debugCanvas.drawLine(line);
         List<ThreePoints> threePointses = getFindPatternCenters(lineCross);
         List<FindPattern> findPatterns = new ArrayList<FindPattern>();
         for(ThreePoints threePoints : threePointses) {
@@ -67,12 +75,15 @@ public class FindPattern {
             threePoints.sort(sincos);
             int[] width = getWidth(image.bitmap, threePoints.getCenters());
             Utils.log("width %s %s %s", width[0], width[1], width[2]);
-            int version = calcRoughVersion(threePoints.getCenters(), width);
-            Utils.log("version %s", version);
             int[] moduleSize = {
                     (width[Const.UL] << QrReader.DECIMAL_POINT) / 7,
                     (width[Const.UR] << QrReader.DECIMAL_POINT) / 7,
                     (width[Const.DL] << QrReader.DECIMAL_POINT) / 7};
+            int version = calcRoughVersion(threePoints.getCenters(), width);
+            if(version > 6){
+                version = calcExactVersion(threePoints.getCenters(), sincos, moduleSize, image.bitmap);
+            }
+            Utils.log("version %s", version);
             findPatterns.add(new FindPattern(threePoints, sincos, width, moduleSize, version));
         }
         return findPatterns;
@@ -86,7 +97,7 @@ public class FindPattern {
         int bufferPointer = 0;
 
         boolean horizontalDirection  = true;
-        boolean lastElement = Const.FRONT;
+        boolean lastElement = Const.WHITE;
         int width = image.length;
         int height = image[0].length;
 
@@ -95,7 +106,7 @@ public class FindPattern {
             if(currentElement == lastElement){
                 lengthBuffer[bufferPointer]++;
             } else {
-                if(currentElement == Const.FRONT){
+                if(currentElement == Const.WHITE){
                     if(checkPattern(lengthBuffer, bufferPointer)){
                         int x1, y1, x2, y2;
                         if(horizontalDirection){
@@ -162,8 +173,8 @@ public class FindPattern {
         baseLength <<= QrReader.DECIMAL_POINT;
         baseLength /= 7;
         for(int i = 0;i < modelRatio.length;i++){
-            int leastLength = baseLength*modelRatio[i] - baseLength/4;
-            int mostLength = baseLength*modelRatio[i] + baseLength/4;
+            int leastLength = baseLength*modelRatio[i] - baseLength/2;
+            int mostLength = baseLength*modelRatio[i] + baseLength/2;
 
             int targetLength = buffer[(pointer + i + 1) % 5] << QrReader.DECIMAL_POINT;
             if(targetLength < leastLength || targetLength > mostLength) {
@@ -347,14 +358,14 @@ public class FindPattern {
             int lx, rx;
             int y = centers[i].getY();
             for(lx = centers[i].getX();lx >= 0;lx--){
-                if(image[lx][y] == Const.BACK && image[lx - 1][y] == Const.FRONT){
+                if(image[lx][y] == Const.BLACK && image[lx - 1][y] == Const.WHITE){
                     if(!flag) flag = true;
                     else break;
                 }
             }
             flag = false;
             for(rx = centers[i].getX();rx < image.length;rx++){
-                if (image[rx][y] == Const.BACK && image[rx + 1][y] == Const.FRONT){
+                if (image[rx][y] == Const.BLACK && image[rx + 1][y] == Const.WHITE){
                     if(!flag) flag = true;
                     else break;
                 }
@@ -373,7 +384,68 @@ public class FindPattern {
             roughVersion++;
         }
         if(roughVersion == 0) roughVersion = 1;
+
+        roughVersion = 2;
         return roughVersion;
+    }
+
+    static int calcExactVersion(Point[] centers, int[] angle, int[] moduleSize, boolean[][] image)
+            throws InvalidVersionInfoException, InvalidVersionException {
+        boolean[] versionInformation = new boolean[18];
+        Point[] points = new Point[18];
+        Point target;
+        Axis axis = new Axis(angle, moduleSize[Const.UR]); //UR
+        axis.setOrigin(centers[Const.UR]);
+
+        for (int y = 0; y < 6; y++) {
+            for (int x = 0; x < 3; x++) {
+                target = axis.translate(x - 7, y - 3);
+                versionInformation[x + y * 3] = image[target.getX()][target.getY()];
+                points[x + y * 3] = target;
+            }
+        }
+
+        int exactVersion = 0;
+        try {
+            exactVersion = checkVersionInfo(versionInformation);
+        } catch (InvalidVersionInfoException e) {
+            axis.setOrigin(centers[Const.DL]);
+            axis.setModulePitch(moduleSize[Const.DL]); //DL
+
+            for (int x = 0; x < 6; x++) {
+                for (int y = 0; y < 3; y++) {
+                    target = axis.translate(x - 3, y - 7);
+                    versionInformation[y + x * 3] = image[target.getX()][target.getY()];
+                    points[x + y * 3] = target;
+                }
+            }
+
+            try {
+                exactVersion = checkVersionInfo(versionInformation);
+            } catch (VersionInformationException e2) {
+                throw e2;
+            }
+        }
+        return exactVersion;
+    }
+
+    static int checkVersionInfo(boolean[] target)
+            throws InvalidVersionInfoException {
+        // note that this method includes BCH 18-6 Error Correction
+        // see page 67 on JIS-X-0510(2004)
+        int errorCount = 0, versionBase;
+        for (versionBase = 0; versionBase < VersionInfoBit.length; versionBase++) {
+            errorCount = 0;
+            for (int j = 0; j < 18; j++) {
+                if (target[j] ^ (VersionInfoBit[versionBase] >> j) % 2 == 1)
+                    errorCount++;
+            }
+            if (errorCount <= 3) break;
+        }
+        if (errorCount <= 3)
+            return 7 + versionBase;
+        else
+            throw new InvalidVersionInfoException("Too many errors in version information");
     }
 
 

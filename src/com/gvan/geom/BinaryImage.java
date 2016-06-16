@@ -47,7 +47,7 @@ public class BinaryImage {
         bitmap = new boolean[height][width];
         for(int i = 0;i < height;i++){
             for(int j = 0;j < width;j++){
-                bitmap[i][j] = image.bitmap[i][j] < threshold ? Const.BACK : Const.FRONT;
+                bitmap[i][j] = image.bitmap[i][j] < threshold ? Const.BLACK : Const.WHITE;
             }
         }
     }
@@ -109,7 +109,7 @@ public class BinaryImage {
     }
 
     public void saveFile(){
-        String outFileName = "/home/ivan/Study/diplom/images/output.pgm";
+        String outFileName = "res/binary.pgm";
         saveFile(outFileName);
     }
 

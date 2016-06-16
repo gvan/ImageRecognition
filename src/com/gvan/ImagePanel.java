@@ -21,9 +21,9 @@ public class ImagePanel extends JPanel implements DebugCanvas{
     ArrayList<Line> lines = new ArrayList<Line>();
     ArrayList<Point> points = new ArrayList<Point>();
 
-    public ImagePanel() {
+    public ImagePanel(String fileName) {
         try {
-            image = ImageIO.read(new File("res/qrcode1.png"));
+            image = ImageIO.read(new File(fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }

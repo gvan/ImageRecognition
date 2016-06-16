@@ -35,10 +35,14 @@ public class Line {
     }
 
     public void setP1(Point p1) {
+        x1 = p1.getX();
+        y1 = p1.getY();
         this.p1 = p1;
     }
 
     public void setP2(Point p2) {
+        x2 = p2.getX();
+        y2 = p2.getY();
         this.p2 = p2;
     }
 
