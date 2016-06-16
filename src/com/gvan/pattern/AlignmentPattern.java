@@ -98,7 +98,7 @@ public class AlignmentPattern {
     }
 
     private static Point getPrecisionCenter(boolean[][] image, Point targetPoint){
-        if(image[targetPoint.getX()][targetPoint.getY()] == Const.FRONT){
+        if(image[targetPoint.getX()][targetPoint.getY()] == Const.WHITE){
             int scope = 0;
             boolean found = false;
             while (!found){
@@ -109,7 +109,7 @@ public class AlignmentPattern {
                         int y = targetPoint.getY() + dy;
                         if((x < 0 || y < 0) || (x > image.length - 1 || y > image[0].length - 1))
                             return null;
-                        if(image[x][y] == Const.BACK){
+                        if(image[x][y] == Const.BLACK){
                             targetPoint = new Point(targetPoint.getX() + dx, targetPoint.getY() + dy);
                             found = true;
                         }
@@ -121,7 +121,7 @@ public class AlignmentPattern {
         x = lx = rx = targetPoint.getX();
         y = uy = dy = targetPoint.getY();
 
-        while (lx >= 1                  && targetPointOnTheCorner(image, lx, y, lx -1, y)) lx--;
+        while (lx >= 1                  && targetPointOnTheCorner(image, lx, y, lx - 1, y)) lx--;
         while (rx < image.length - 1    && targetPointOnTheCorner(image, rx, y, rx + 1, y)) rx++;
         while (uy >= 1                  && targetPointOnTheCorner(image, x, uy, x, uy - 1)) uy--;
         while (dy < image[0].length - 1 && targetPointOnTheCorner(image, x, dy, x, dy + 1)) dy++;
@@ -130,7 +130,7 @@ public class AlignmentPattern {
     }
 
     private static boolean targetPointOnTheCorner(boolean[][] image, int x, int y, int nx, int ny){
-        return image[x][y] == Const.FRONT && image[nx][ny] == Const.BACK;
+        return image[x][y] == Const.WHITE && image[nx][ny] == Const.BLACK;
     }
 
 }

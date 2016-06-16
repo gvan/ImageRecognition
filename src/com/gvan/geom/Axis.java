@@ -1,6 +1,7 @@
 package com.gvan.geom;
 
 import com.gvan.QrReader;
+import com.gvan.util.Utils;
 
 /**
  * Created by ivan on 6/11/16.

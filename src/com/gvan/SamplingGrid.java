@@ -5,6 +5,8 @@ import com.gvan.geom.Line;
 import com.gvan.geom.Point;
 import com.gvan.pattern.AlignmentPattern;
 import com.gvan.pattern.FindPattern;
+import com.gvan.util.DebugCanvas;
+import com.gvan.util.Utils;
 
 /**
  * Created by ivan on 6/12/16.
@@ -12,13 +14,27 @@ import com.gvan.pattern.FindPattern;
 public class SamplingGrid {
     
     private AreaGrid[][] grid;
+    private ModulePitch[][] modulePitches;
 
     public SamplingGrid(int sqrtNumArea) {
         grid = new AreaGrid[sqrtNumArea][sqrtNumArea];
+        modulePitches = new ModulePitch[sqrtNumArea][sqrtNumArea];
     }
 
     public void initGrid(int ax, int ay, int width, int height){
         grid[ax][ay] = new AreaGrid(width, height);
+    }
+
+    public void setModulePitches(int ax, int ay, ModulePitch modulePitch){
+        modulePitches[ax][ay] = modulePitch;
+    }
+
+    public int getModulePitchWidth(int ax, int ay){
+        return modulePitches[ax][ay].top >> QrReader.DECIMAL_POINT;
+    }
+
+    public int getModulePitchHeight(int ax, int ay){
+        return modulePitches[ax][ay].left >> QrReader.DECIMAL_POINT;
     }
 
     public void setXLine(int ax, int ay, int x, Line line){
@@ -78,7 +94,16 @@ public class SamplingGrid {
         return total;
     }
 
-    public static SamplingGrid getSamplingGrid(FindPattern findPattern, AlignmentPattern alignmentPattern){
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0;i < grid.length;i++)
+            for(int j = 0;j < grid[0].length;j++)
+                stringBuilder.append(grid[i][j].toString());
+        return stringBuilder.toString();
+    }
+
+    public static SamplingGrid getSamplingGrid(FindPattern findPattern, AlignmentPattern alignmentPattern, DebugCanvas debugCanvas){
         Point[][] centers = alignmentPattern.getCenters();
         int version = findPattern.getVersion();
         int sqrtCenters = (version / 7) + 2;
@@ -109,9 +134,9 @@ public class SamplingGrid {
                 Point lowerRightPoint	=	centers[ax+1][ay+1];
 
                 Point logicalUpperLeftPoint	=	logicalCenters[ax][ay];
-                Point logicalUpperRightPoint	=	logicalCenters[ax+1][ay];
+                Point logicalUpperRightPoint=	logicalCenters[ax+1][ay];
                 Point logicalLowerLeftPoint	=	logicalCenters[ax][ay+1];
-                Point logicalLowerRightPoint	=	logicalCenters[ax+1][ay+1];
+                Point logicalLowerRightPoint=	logicalCenters[ax+1][ay+1];
 
                 // left upper corner
                 if(ax==0 && ay==0) {
@@ -218,18 +243,21 @@ public class SamplingGrid {
                     logicalUpperRightPoint.translate(0,-1);
                 }
 
-                int logicalWidth=logicalUpperRightPoint.getX()-logicalUpperLeftPoint.getX();
-                int logicalHeight=logicalLowerLeftPoint.getY()-logicalUpperLeftPoint.getY();
+                int logicalWidth = logicalUpperRightPoint.getX() - logicalUpperLeftPoint.getX();
+                int logicalHeight = logicalLowerLeftPoint.getY() - logicalUpperLeftPoint.getY();
 
                 if (version < 7) {
                     logicalWidth += 3;
                     logicalHeight += 3;
-
                 }
+
+                Utils.log("logical width %s height %s", logicalWidth, logicalHeight);
+
                 modulePitch.top = getAreaModulePitch(upperLeftPoint, upperRightPoint, logicalWidth-1);
                 modulePitch.left = getAreaModulePitch(upperLeftPoint, lowerLeftPoint, logicalHeight-1);
                 modulePitch.bottom = getAreaModulePitch(lowerLeftPoint, lowerRightPoint, logicalWidth-1);
                 modulePitch.right = getAreaModulePitch(upperRightPoint, lowerRightPoint, logicalHeight-1);
+                Utils.log("top %s bottom %s left %s right %s", modulePitch.top, modulePitch.bottom, modulePitch.left, modulePitch.right);
 
                 baseLineX.setP1(upperLeftPoint);
                 baseLineY.setP1(upperLeftPoint);
@@ -237,6 +265,7 @@ public class SamplingGrid {
                 baseLineY.setP2(upperRightPoint);
 
                 samplingGrid.initGrid(ax,ay,logicalWidth,logicalHeight);
+                samplingGrid.setModulePitches(ax, ay, modulePitch);
 
                 for (int i = 0; i < logicalWidth; i++) {
                     gridLineX = new Line(baseLineX.getP1(), baseLineX.getP2());
@@ -249,6 +278,7 @@ public class SamplingGrid {
                     axis.setModulePitch(modulePitch.bottom);
                     gridLineX.setP2(axis.translate(i, 0));
 
+                    debugCanvas.drawLine(gridLineX);
                     samplingGrid.setXLine(ax,ay,i,gridLineX);
                 }
 
@@ -264,6 +294,7 @@ public class SamplingGrid {
                     axis.setModulePitch(modulePitch.right);
                     gridLineY.setP2(axis.translate(0, i));
 
+                    debugCanvas.drawLine(gridLineY);
                     samplingGrid.setYLine(ax,ay,i,gridLineY);
 
                 }
@@ -312,9 +343,20 @@ public class SamplingGrid {
             return yLine.length;
         }
 
+        @Override
+        public String toString() {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("\nxLine\n");
+            for(Line line : xLine)
+                stringBuilder.append(String.format("#%s ", line.toString()));
+            stringBuilder.append("\nyLine\n");
+            for(Line line : yLine)
+                stringBuilder.append(String.format("#%s ", line.toString()));
+            return stringBuilder.toString();
+        }
     }
     
-    private static class ModulePitch{
+    public static class ModulePitch{
         public int top;
         public int bottom;
         public int left;
